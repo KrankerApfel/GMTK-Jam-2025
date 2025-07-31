@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Sequencer : MonoBehaviour
@@ -7,16 +8,15 @@ public class Sequencer : MonoBehaviour
     public float tickInterval;
     private float barInterval;
     private AudioSource audioSource;
-    
+
     public int BPM = 60;
     public int TicksPerBar = 4;
     public int BarCount = 4;
-   
+
     public AudioClip BeatClip;
     public AudioClip BarClip;
 
-    private ActionSequencer actionSequencer;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,11 +29,6 @@ public class Sequencer : MonoBehaviour
         tickInterval = 60f / BPM;
         barInterval = tickInterval * TicksPerBar;
         audioSource = GetComponent<AudioSource>();
-    }
-
-    public void Init(ActionSequencer s)
-    {
-        actionSequencer = s;
     }
 
     void FixedUpdate()
@@ -51,7 +46,7 @@ public class Sequencer : MonoBehaviour
             // audioSource.pitch = -1f;
             // audioSource.timeSamples = audioSource.clip.samples - 1;
             // audioSource.PlayCurrentAction();
-            
+
             audioSource.PlayOneShot(BeatClip);
             
             //if next is a bar
@@ -68,6 +63,14 @@ public class Sequencer : MonoBehaviour
             // Ring.Instance.MoveToNextSlot();
             StartCoroutine(Ring.Instance.Rotate());
             StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
+            PlayAction();
         }
+    }
+
+    private void PlayAction()
+    {
+        Ring.Instance.MoveToNextSlot();
+        actionSequencer.PlayCurrentAction();
+        actionSequencer.NextAction();
     }
 }
