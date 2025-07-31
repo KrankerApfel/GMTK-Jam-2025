@@ -22,15 +22,8 @@ public abstract class ActionBase : MonoBehaviour
         duration *= frequency;
 
     }
-    public void TriggerAction() 
-    {
-        OnActionStarted?.Invoke();
-        StartCoroutine(PerformAction());
-        OnActionFinished?.Invoke();
-    }
-    protected IEnumerator PerformAction() 
+    public void TriggerAction()
     {
         HandleAction();
-        yield return new WaitForSeconds(duration);
     }
 }

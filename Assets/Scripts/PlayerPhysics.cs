@@ -19,6 +19,7 @@ public class PlayerPhysics : MonoBehaviour
     private Rigidbody2D rigidBody;
     private PlayerInputs inputs;
     private bool isGrounded;
+    private bool disableMovement;
 
     private void Awake()
     {
@@ -26,9 +27,15 @@ public class PlayerPhysics : MonoBehaviour
         inputs = GetComponent<PlayerInputs>();
     }
 
-    public void addForce(Vector2 velocity) 
+
+    public void DisableMovement(bool deactivate)
     {
-        rigidBody.AddRelativeForce(velocity);
+        disableMovement = deactivate;
+    }
+
+    public void SetVelocity(Vector2 velocity) 
+    {
+        rigidBody.linearVelocity = velocity;
     }
 
     private void Update()
@@ -43,6 +50,7 @@ public class PlayerPhysics : MonoBehaviour
     }
     private void HandleMovement()
     {
+        if (disableMovement) return;
         Vector2 velocity = rigidBody.linearVelocity;
         velocity.x = speed * inputs.Horizontal;
         rigidBody.linearVelocity = velocity;
@@ -59,4 +67,5 @@ public class PlayerPhysics : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);
     }
+  
 }
