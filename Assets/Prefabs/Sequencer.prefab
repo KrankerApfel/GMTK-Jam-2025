@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 653ccb8948cf747e99b861ddd24b050d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionSequencer: {fileID: 0}
+  tickInterval: 0
   BPM: 60
-  BeatsPerBar: 4
+  TicksPerBar: 4
   BarCount: 4
   BeatClip: {fileID: 8300000, guid: dd8f37f7f7f564985a8543fb01a03a52, type: 3}
   BarClip: {fileID: 8300000, guid: 7a6637c41bde14c0ab16ace65a9cfe3e, type: 3}

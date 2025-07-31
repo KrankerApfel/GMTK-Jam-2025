@@ -16,7 +16,7 @@ public class Ring : MonoBehaviour
     public Animator animator;
     
     public GameObject SlotPrefab;
-    public int SlotCount;
+    private int SlotCount;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,8 +29,6 @@ public class Ring : MonoBehaviour
             return;
         }
         
-        // animator = GetComponent<Animator>();
-        
         //clean children
         slots = new List<GameObject>();
         foreach (Transform child in animator.transform)
@@ -38,6 +36,12 @@ public class Ring : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        SlotCount = 0;
+        foreach (var c in Sequencer.Instance.BeatMap)
+        { if (c == '1') SlotCount++; }
+        SlotCount *= Sequencer.Instance.BarCount;
+        print(SlotCount);
+        
         // create slots
         for (int i = 0; i < SlotCount; i++)
         {
@@ -121,16 +125,17 @@ public class Ring : MonoBehaviour
 
     public IEnumerator PlayAnimation(string animationName)
     {
-        if (animator != null) animator.Play(animationName);
+
+        if (animator != null)
+        {
+            animator.speed = Sequencer.Instance.BPM / 60f;
+            animator.Play(animationName);
+        }
         return null;
     }
 
     public IEnumerator Rotate()
     {
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
-        
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / SlotCount;
         float duration = Sequencer.Instance.tickInterval / 10f;
@@ -142,7 +147,7 @@ public class Ring : MonoBehaviour
         
         while (elapsed < duration)
         {
-            print(Vector3.Lerp(startRotation, endRotation, elapsed / duration));
+            // print(Vector3.Lerp(startRotation, endRotation, elapsed / duration));
             transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, elapsed / duration);
 
             foreach (var slot in slots)
@@ -159,6 +164,10 @@ public class Ring : MonoBehaviour
         {
             slot.transform.localEulerAngles = -endRotation;
         }
+        
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
+        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
     }
 
 }
