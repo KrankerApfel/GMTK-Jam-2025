@@ -34,7 +34,14 @@ public class ActionSequencer : MonoBehaviour
             action.OnActionFinished += OnActionFinished;
         }
 
-        SetNextAction();
+        NextAction();
+    }
+    public void NextAction()
+    {
+        if (currentAction != null)
+            actionStack.Enqueue(currentAction);
+
+        currentAction = actionStack.Dequeue();
     }
 
     private void OnActionStarted()
@@ -44,15 +51,7 @@ public class ActionSequencer : MonoBehaviour
 
     private void OnActionFinished()
     {
-        SetNextAction();
     }
 
-    private void SetNextAction()
-    {
-        if (currentAction != null)
-            actionStack.Enqueue(currentAction);
-
-        currentAction = actionStack.Dequeue();
-    }
 
 }

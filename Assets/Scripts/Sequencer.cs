@@ -1,51 +1,76 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Sequencer : MonoBehaviour
 {
-    private float beatInterval;
+    public static Sequencer Instance { get; private set; }
+    
+    public float tickInterval;
     private float barInterval;
     private AudioSource audioSource;
-    
+
     public int BPM = 60;
-    public int BeatsPerBar = 4;
+    public int TicksPerBar = 4;
     public int BarCount = 4;
-   
+
     public AudioClip BeatClip;
     public AudioClip BarClip;
 
-    private ActionSequencer actionSequencer;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        beatInterval = 60f / BPM;
-        barInterval = beatInterval * BeatsPerBar;
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        tickInterval = 60f / BPM;
+        barInterval = tickInterval * TicksPerBar;
         audioSource = GetComponent<AudioSource>();
-    }
-
-    public void Init(ActionSequencer s)
-    {
-        actionSequencer = s;
     }
 
     void FixedUpdate()
     {
-        // Check if it's time to play a beat or bar
-        if (Time.time % beatInterval < Time.fixedDeltaTime && Time.time % barInterval >= Time.fixedDeltaTime)
+        // if not on it return
+        if (Time.time % tickInterval > Time.fixedDeltaTime) return;
+        
+        // Check which tick we are on
+        int tickIndex = (int)(Time.time / tickInterval);
+        
+        if (tickIndex % TicksPerBar != 0)
         {
             //play backwards
             // audioSource.clip = BeatClip;
             // audioSource.pitch = -1f;
             // audioSource.timeSamples = audioSource.clip.samples - 1;
             // audioSource.PlayCurrentAction();
-            
+
             audioSource.PlayOneShot(BeatClip);
+            
+            //if next is a bar
+            if ((tickIndex+1)%TicksPerBar == 0)
+            {
+                StartCoroutine(Ring.Instance.PlayAnimation("PreTransition"));
+            }
+            else StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
         }
         
-        if (Time.time % barInterval < Time.fixedDeltaTime && Time.time > 0)
+        if (tickIndex % TicksPerBar == 0 && tickIndex != 0)
         {
             audioSource.PlayOneShot(BarClip);
-            Ring.Instance.MoveToNextSlot();
+            // Ring.Instance.MoveToNextSlot();
+            StartCoroutine(Ring.Instance.Rotate());
+            StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
+            PlayAction();
         }
+    }
+
+    private void PlayAction()
+    {
+        Ring.Instance.MoveToNextSlot();
+        actionSequencer.PlayCurrentAction();
+        actionSequencer.NextAction();
     }
 }
