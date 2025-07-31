@@ -538,6 +538,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2110108728}
     m_Modifications:
+    - target: {fileID: 6308866425069888710, guid: 9322db0802698430f86d4885e005e3c5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7037453897095759579, guid: 9322db0802698430f86d4885e005e3c5, type: 3}
       propertyPath: m_Name
       value: Ring
