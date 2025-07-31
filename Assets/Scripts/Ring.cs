@@ -127,10 +127,6 @@ public class Ring : MonoBehaviour
 
     public IEnumerator Rotate()
     {
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
-        
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / SlotCount;
         float duration = Sequencer.Instance.tickInterval / 10f;
@@ -159,6 +155,10 @@ public class Ring : MonoBehaviour
         {
             slot.transform.localEulerAngles = -endRotation;
         }
+        
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
+        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
     }
 
 }
