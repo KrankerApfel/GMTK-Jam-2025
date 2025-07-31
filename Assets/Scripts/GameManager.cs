@@ -14,9 +14,4 @@ public class GameManager : MonoBehaviour
         actionSequencer.SetNewActions(selectedActions);
     }
 
-    private void Update()
-    {
-        actionSequencer.PlayCurrentAction();
-    }
-
 }
