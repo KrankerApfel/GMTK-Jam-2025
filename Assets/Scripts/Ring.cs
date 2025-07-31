@@ -40,7 +40,6 @@ public class Ring : MonoBehaviour
         foreach (var c in Sequencer.Instance.BeatMap)
         { if (c == '1') SlotCount++; }
         SlotCount *= Sequencer.Instance.BarCount;
-        print(SlotCount);
         
         // create slots
         for (int i = 0; i < SlotCount; i++)
@@ -131,7 +130,7 @@ public class Ring : MonoBehaviour
             animator.speed = Sequencer.Instance.BPM / 60f;
             animator.Play(animationName);
         }
-        return null;
+        yield return null;
     }
 
     public IEnumerator Rotate()
@@ -147,7 +146,6 @@ public class Ring : MonoBehaviour
         
         while (elapsed < duration)
         {
-            // print(Vector3.Lerp(startRotation, endRotation, elapsed / duration));
             transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, elapsed / duration);
 
             foreach (var slot in slots)
