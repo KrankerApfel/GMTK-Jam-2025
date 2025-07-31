@@ -335,7 +335,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.75, g: 0.8472222, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1248,6 +1248,10 @@ PrefabInstance:
       propertyPath: BarCount
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+      propertyPath: TickClip
+      value: 
+      objectReference: {fileID: 8300000, guid: dd8f37f7f7f564985a8543fb01a03a52, type: 3}
     - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
       propertyPath: actionSequencer
       value: 

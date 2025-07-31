@@ -87,40 +87,6 @@ public class Ring : MonoBehaviour
         //     transform.Rotate(0, 0, 360f / SlotCount);
         // }
     }
-    
-    public void MoveToNextSlot()
-    {
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex + 1) % slots.Count;
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
-        
-        RotateRing(-360f / SlotCount);
-    }
-    
-    private void MoveToPreviousSlot()
-    {
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
-        
-        RotateRing(360f / SlotCount);
-    }
-
-    private void RotateRing(float angle)
-    {
-        // transform.Rotate(0, 0, angle);
-        // startAngle += (int)angle;
-        for (int i = 0; i < slots.Count; i++)
-        {
-            float newAngle = (currentSlotIndex - i) * (360f / SlotCount) + startAngle;
-            float radians = newAngle * Mathf.Deg2Rad;
-            float x = Mathf.Cos(radians);
-            float y = Mathf.Sin(radians);
-            slots[i].transform.localPosition = new Vector3(x, y, 0) * ringRaduis;
-        }
-        
-        
-    }
 
     public IEnumerator PlayAnimation(string animationName)
     {
@@ -157,15 +123,16 @@ public class Ring : MonoBehaviour
             //wait delta time
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
+        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
+        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
+        
         transform.localEulerAngles = endRotation;
         foreach (var slot in slots)
         {
             slot.transform.localEulerAngles = -endRotation;
         }
-        
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
-        slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
     }
 
 }
