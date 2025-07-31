@@ -23,9 +23,6 @@ public class Sequencer : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip BeatClip;
     public AudioClip BarClip;
-
-    
-    private ActionSequencer actionSequencer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
