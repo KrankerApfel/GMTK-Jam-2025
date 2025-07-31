@@ -20,12 +20,15 @@ public class PlayerPhysics : MonoBehaviour
     private PlayerInputs inputs;
     private bool isGrounded;
 
-
-
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         inputs = GetComponent<PlayerInputs>();
+    }
+
+    public void addVelocity(Vector2 velocity) 
+    {
+        rigidBody.AddRelativeForce(velocity);
     }
 
     private void Update()
@@ -38,6 +41,12 @@ public class PlayerPhysics : MonoBehaviour
     {
         HandleMovement();
     }
+    private void HandleMovement()
+    {
+        Vector2 velocity = rigidBody.linearVelocity;
+        velocity.x = speed * inputs.Horizontal;
+        rigidBody.linearVelocity = velocity;
+    }
 
     private void HandleJump() 
     {
@@ -46,7 +55,6 @@ public class PlayerPhysics : MonoBehaviour
             rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
         }
     }
-    private void HandleMovement() { }
     private void CheckGround() 
     {
         isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);
