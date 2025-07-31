@@ -16,7 +16,7 @@ public class Ring : MonoBehaviour
     public Animator animator;
     
     public GameObject SlotPrefab;
-    public int SlotCount;
+    private int SlotCount;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,8 +29,6 @@ public class Ring : MonoBehaviour
             return;
         }
         
-        // animator = GetComponent<Animator>();
-        
         //clean children
         slots = new List<GameObject>();
         foreach (Transform child in animator.transform)
@@ -38,6 +36,12 @@ public class Ring : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        SlotCount = 0;
+        foreach (var c in Sequencer.Instance.BeatMap)
+        { if (c == '1') SlotCount++; }
+        SlotCount *= Sequencer.Instance.BarCount;
+        print(SlotCount);
+        
         // create slots
         for (int i = 0; i < SlotCount; i++)
         {
@@ -121,7 +125,12 @@ public class Ring : MonoBehaviour
 
     public IEnumerator PlayAnimation(string animationName)
     {
-        if (animator != null) animator.Play(animationName);
+
+        if (animator != null)
+        {
+            animator.speed = Sequencer.Instance.BPM / 60f;
+            animator.Play(animationName);
+        }
         return null;
     }
 
@@ -138,7 +147,7 @@ public class Ring : MonoBehaviour
         
         while (elapsed < duration)
         {
-            print(Vector3.Lerp(startRotation, endRotation, elapsed / duration));
+            // print(Vector3.Lerp(startRotation, endRotation, elapsed / duration));
             transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, elapsed / duration);
 
             foreach (var slot in slots)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,24 @@ public class Sequencer : MonoBehaviour
     
     [SerializeField]
     private ActionSequencer actionSequencer;
-    
-    public float tickInterval;
-    private float barInterval;
-    private float latency;
-    private AudioSource audioSource;
 
+    public string BeatMap = "1000";
     public int BPM = 60;
-    public int TicksPerBar = 4;
-    public int BarCount = 4;
+    public int BarCount = 6;
+    
+    private int ticksPerBar;
+    [HideInInspector]
+    public float tickInterval;
+    // [HideInInspector] public int SlotCount;
+    private float latency;
 
+    private AudioSource audioSource;
     public AudioClip BeatClip;
     public AudioClip BarClip;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void Awake()
     {
         if (Instance == null) Instance = this;
         else
@@ -31,10 +34,14 @@ public class Sequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    void Start()
+    {
         tickInterval = 60f / BPM;
-        barInterval = tickInterval * TicksPerBar;
         latency = tickInterval / 6f;
         audioSource = GetComponent<AudioSource>();
+        ticksPerBar = BeatMap.Length;
     }
 
     void FixedUpdate()
@@ -49,17 +56,17 @@ public class Sequencer : MonoBehaviour
         // Check which tick we are on
         int tickIndex = (int)(Time.time / tickInterval);
         
-        if (tickIndex % TicksPerBar != 0)
+        if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
             //if next is a bar
-            if ((tickIndex+1)%TicksPerBar == 0)
+            if (BeatMap[(tickIndex+1)%ticksPerBar] == '1')
             {
                 StartCoroutine(Ring.Instance.PlayAnimation("PreTransition"));
             }
             else StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
         }
         
-        if (tickIndex % TicksPerBar == 0 && tickIndex != 0)
+        if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             StartCoroutine(Ring.Instance.Rotate());
             StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
@@ -70,12 +77,12 @@ public class Sequencer : MonoBehaviour
     {
         int tickIndex = (int)(Time.time / tickInterval);
         
-        if (tickIndex % TicksPerBar != 0)
+        if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
             audioSource.PlayOneShot(BeatClip);
         }
         
-        if (tickIndex % TicksPerBar == 0 && tickIndex != 0)
+        if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             audioSource.PlayOneShot(BarClip);
             PlayAction();

@@ -525,6 +525,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sequencer
       objectReference: {fileID: 0}
+    - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+      propertyPath: BPM
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+      propertyPath: BeatMap
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+      propertyPath: BarCount
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
