@@ -15,7 +15,9 @@ public class PlayerPhysics : MonoBehaviour
     private float collisionRadius = 0.2f;
     [SerializeField]
     private LayerMask groundLayer;
-    
+
+    public Vector2 Velocity => rigidBody.linearVelocity;
+
     private Rigidbody2D rigidBody;
     private PlayerInputs inputs;
     private bool isGrounded;

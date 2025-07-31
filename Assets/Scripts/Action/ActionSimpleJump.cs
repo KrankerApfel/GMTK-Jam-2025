@@ -1,35 +1,30 @@
+using System.Collections;
 using UnityEngine;
 public class ActionSimpleJump : ActionBase
 {
-    [Header("Physics")]
+    [Header("Jump Settings")]
+    [SerializeField] private PlayerPhysics playerPhysics;
+    [SerializeField] private float jumpForce = 25f;
 
-    [SerializeField]
-    private Rigidbody2D rigidBody;
-
-    [SerializeField]
-    private float jumpForce = 30f;
-    
-    private float timer = 0f;
-    private bool has_jump = false;
-
+    [Tooltip("Bloque temporairement les mouvements horizontaux du joueur")]
+    [SerializeField] private bool disableMovementDuringJump = true;
 
     public override void HandleAction()
     {
-        Debug.Log("ActionDoubleJump");
-        timer += Time.deltaTime;
-        if (timer >= duration)
-        {
-            timer = 0f;
-            has_jump = false;
-        }
-        else if (timer < duration && !has_jump) //init phase => first jump
-        {
-            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
-            has_jump = true;
-        }
+        if (disableMovementDuringJump)
+            playerPhysics.DisableMovement(true);
 
-
+        playerPhysics.SetVelocity(new Vector2(playerPhysics.Velocity.x, jumpForce));
+        StartCoroutine(FinishAfterDuration());
     }
 
-}
+    private IEnumerator FinishAfterDuration()
+    {
+        yield return new WaitForSeconds(duration);
 
+        if (disableMovementDuringJump)
+            playerPhysics.DisableMovement(false);
+
+        OnActionFinished?.Invoke();
+    }
+}

@@ -11,19 +11,11 @@ public abstract class ActionBase : MonoBehaviour
     public Action OnActionStarted;
     public Action OnActionFinished;
 
-    private float frequency;
-    
     public abstract void HandleAction();
-    
-
-    public void SetFrequency(float f)
-    {
-        frequency = f;
-        duration *= frequency;
-
-    }
+  
     public void TriggerAction()
     {
+        OnActionStarted?.Invoke();
         HandleAction();
     }
 }
