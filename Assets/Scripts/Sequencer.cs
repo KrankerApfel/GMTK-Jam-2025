@@ -12,6 +12,8 @@ public class Sequencer : MonoBehaviour
    
     public AudioClip BeatClip;
     public AudioClip BarClip;
+
+    private ActionSequencer actionSequencer;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +21,11 @@ public class Sequencer : MonoBehaviour
         beatInterval = 60f / BPM;
         barInterval = beatInterval * BeatsPerBar;
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Init(ActionSequencer s)
+    {
+        actionSequencer = s;
     }
 
     void FixedUpdate()
@@ -30,7 +37,7 @@ public class Sequencer : MonoBehaviour
             // audioSource.clip = BeatClip;
             // audioSource.pitch = -1f;
             // audioSource.timeSamples = audioSource.clip.samples - 1;
-            // audioSource.Play();
+            // audioSource.PlayCurrentAction();
             
             audioSource.PlayOneShot(BeatClip);
         }

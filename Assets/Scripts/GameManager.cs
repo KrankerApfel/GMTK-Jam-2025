@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        actionSequencer.Play();
+        actionSequencer.PlayCurrentAction();
     }
 
 }
