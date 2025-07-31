@@ -26,7 +26,7 @@ public class PlayerPhysics : MonoBehaviour
         inputs = GetComponent<PlayerInputs>();
     }
 
-    public void addVelocity(Vector2 velocity) 
+    public void addForce(Vector2 velocity) 
     {
         rigidBody.AddRelativeForce(velocity);
     }
