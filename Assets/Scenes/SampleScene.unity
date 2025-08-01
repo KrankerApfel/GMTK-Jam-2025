@@ -1777,11 +1777,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionSequencer: {fileID: 1365552870}
-  sequencer: {fileID: 0}
+  player: {fileID: 1365552865}
   actionPool:
   - {fileID: 111686458}
   - {fileID: 671219498}
-  player: {fileID: 1365552865}
+  - {fileID: 1360598489}
+  - {fileID: 1359805367}
+  fixedSequence:
+  - {fileID: 671219498}
+  - {fileID: 671219498}
+  - {fileID: 671219498}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1565773325
 Transform:
   m_ObjectHideFlags: 0

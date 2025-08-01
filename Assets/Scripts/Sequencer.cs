@@ -64,13 +64,22 @@ public class Sequencer : MonoBehaviour
         isPlaying = true;
     }
     
-    public void CreateSequence(ActionBase[] actions)
+    public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
         List<ActionBase> sequence = new List<ActionBase>();
         for (int i = 0; i < SlotCount; i++)
         {
-            //randomly select an action from the actions array
-            sequence.Add(actions[Random.Range(0, actions.Length)]);
+            if(fixedSequence.Length > 0)
+            {
+                ActionBase tmpSeq = fixedSequence[i%fixedSequence.Length]; 
+                
+                if(tmpSeq == null)
+                {
+                    sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
+                }
+                else sequence.Add(fixedSequence[i% fixedSequence.Length]);
+            }
+            else sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
         }
         
         actionSequencer.SetNewActions(sequence.ToArray());
