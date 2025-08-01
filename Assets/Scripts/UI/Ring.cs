@@ -103,6 +103,8 @@ public class Ring : MonoBehaviour
 
     public IEnumerator Rotate()
     {
+        // print("rotate");
+        
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / slots.Count;
         float duration = Sequencer.Instance.tickInterval / 6f;

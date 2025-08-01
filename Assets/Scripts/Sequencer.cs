@@ -116,12 +116,15 @@ public class Sequencer : MonoBehaviour
         
         elapsedTime = Time.time - Math.Max(gameStartTime, introStartTime);
         
-        if (elapsedTime % tickInterval <= Time.fixedDeltaTime)
+        if (elapsedTime % tickInterval < Time.fixedDeltaTime)
         {
             TickAnimation();
             tickStamp = elapsedTime + latency;
         }
-        else if (elapsedTime > tickStamp && elapsedTime - tickStamp <= Time.fixedDeltaTime) TickSound();
+        else if (elapsedTime > tickStamp && elapsedTime - tickStamp < Time.fixedDeltaTime)
+        {
+            TickSound();
+        }
         
     }
 
@@ -142,7 +145,7 @@ public class Sequencer : MonoBehaviour
             if (isIntro && introActionIndex == actionSequence.Count)
             {
                 introActionIndex++;
-                gameStartTime = Time.time;
+                gameStartTime = introStartTime;
                 UIManager.Instance.FinishIntro();
                 StartCoroutine(PlayMusic());
             }
