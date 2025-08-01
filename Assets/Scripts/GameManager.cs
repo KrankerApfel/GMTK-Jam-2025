@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ActionBase[] selectedActions = actions.GetRange(0,3).ToArray();
+        ActionBase[] selectedActions = actions.ToArray();
         actionSequencer.SetNewActions(selectedActions);
     }
 
