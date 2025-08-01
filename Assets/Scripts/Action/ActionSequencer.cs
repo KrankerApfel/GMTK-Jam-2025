@@ -13,7 +13,7 @@ public class ActionSequencer : MonoBehaviour
 
     public void PlayCurrentAction()
     {
-        currentAction.TriggerAction();
+        currentAction?.TriggerAction();
     }
 
     public void SetNewActions(ActionBase[] actions)
