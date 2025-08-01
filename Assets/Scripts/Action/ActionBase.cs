@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ActionBase : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public abstract class ActionBase : MonoBehaviour
 
     public Action OnActionStarted;
     public Action OnActionFinished;
+    
+    public string ActionName;
+    public Sprite ActionIcon;
 
     public abstract void HandleAction();
   

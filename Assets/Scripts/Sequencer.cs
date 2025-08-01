@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Sequencer : MonoBehaviour
 {
@@ -14,11 +15,13 @@ public class Sequencer : MonoBehaviour
     public string BeatMap = "1000";
     public int BPM = 60;
     public int BarCount = 6;
+    private int SlotCount;
     
     private int ticksPerBar;
     [HideInInspector]
     public float tickInterval;
     // [HideInInspector] public int SlotCount;
+    private float startTime;
     private float latency;
     private float tickStamp;
 
@@ -42,6 +45,11 @@ public class Sequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        
+        SlotCount = 0;
+        foreach (var c in BeatMap)
+        { if (c == '1') SlotCount++; }
+        SlotCount *= BarCount;
     }
 
     void Start()
@@ -55,8 +63,37 @@ public class Sequencer : MonoBehaviour
         musicSource.clip = MusicClip;
         musicSource.loop = true;
         isPlaying = true;
-
+        
+        startTime = Time.time;
     }
+
+    public void Intro()
+    {
+        
+    }
+    
+    public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
+    {
+        List<ActionBase> sequence = new List<ActionBase>();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if(fixedSequence.Length > 0)
+            {
+                ActionBase tmpSeq = fixedSequence[i%fixedSequence.Length]; 
+                
+                if(tmpSeq == null)
+                {
+                    sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
+                }
+                else sequence.Add(fixedSequence[i% fixedSequence.Length]);
+            }
+            else sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
+        }
+        
+        actionSequencer.SetNewActions(sequence.ToArray());
+        Ring.Instance.AddSlots(sequence.ToArray());
+    }
+
 
     public void Stop()
     {
@@ -67,21 +104,23 @@ public class Sequencer : MonoBehaviour
     {
         if (!isPlaying)
             return;
+        
+        float elapsedTime = Time.time - startTime;
 
         // if not on it return
-        if (Time.time % tickInterval <= Time.fixedDeltaTime)
+        if (elapsedTime % tickInterval <= Time.fixedDeltaTime)
         {
             StartAnimation();
-            tickStamp = Time.time + latency;
+            tickStamp = elapsedTime + latency;
         }
-        else if (Time.time > tickStamp && Time.time - tickStamp <= Time.fixedDeltaTime) Tick();
+        else if (elapsedTime > tickStamp && elapsedTime - tickStamp <= Time.fixedDeltaTime) Tick();
     }
 
     private void StartAnimation()
     {
         if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
         // Check which tick we are on
-        int tickIndex = (int)(Time.time / tickInterval);
+        int tickIndex = (int)((Time.time - startTime) / tickInterval);
         
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
@@ -100,7 +139,7 @@ public class Sequencer : MonoBehaviour
 
     private void Tick()
     {
-        int tickIndex = (int)(Time.time / tickInterval);
+        int tickIndex = (int)((Time.time - startTime) / tickInterval);
         
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {

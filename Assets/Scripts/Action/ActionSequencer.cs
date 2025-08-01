@@ -23,7 +23,7 @@ public class ActionSequencer : MonoBehaviour
             action.OnActionStarted -= OnActionStarted;
             action.OnActionFinished -= OnActionFinished;
         }
-
+        
         actionStack.Clear();
 
         foreach (ActionBase action in actions)

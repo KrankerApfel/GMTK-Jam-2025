@@ -16,7 +16,6 @@ public class Ring : MonoBehaviour
     public Animator animator;
     
     public GameObject SlotPrefab;
-    private int SlotCount;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,14 +34,14 @@ public class Ring : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
 
-        SlotCount = 0;
-        foreach (var c in Sequencer.Instance.BeatMap)
-        { if (c == '1') SlotCount++; }
-        SlotCount *= Sequencer.Instance.BarCount;
+    public void AddSlots(ActionBase[] actions)
+    {
+        currentSlotIndex = actions.Length - 1;
         
         // create slots
-        for (int i = 0; i < SlotCount; i++)
+        for (int i = 0; i < actions.Length; i++)
         {
             GameObject slot = Instantiate(SlotPrefab, animator.transform);
             slot.name = "Slot " + i;
@@ -55,24 +54,25 @@ public class Ring : MonoBehaviour
             {
                 slot.transform.localScale = Vector3.one * 2;
             }
-            
+
             // put slots equally spaced in a circle
-            float angle = i * (360f / SlotCount) + startAngle;
+            float angle = - (i+1) * (360f / actions.Length) + startAngle;
             float radians = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(radians);
             float y = Mathf.Sin(radians);
             slot.transform.localPosition = new Vector3(x, y, 0) * ringRaduis;
-            
+
             Image image = slot.GetComponent<Image>();
             if (image != null)
             {
                 // generate pastel color
-                image.color = new Color(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), 1f);
+                // image.color = new Color(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), 1f);
+                image.sprite = actions[i].ActionIcon;
             }
-            
+
             slots.Add(slot);
+            // slots.Insert(0, slot);
         }
-        
     }
 
     // Update is called once per frame
@@ -102,7 +102,7 @@ public class Ring : MonoBehaviour
     public IEnumerator Rotate()
     {
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
-        float angle = 360f / SlotCount;
+        float angle = 360f / slots.Count;
         float duration = Sequencer.Instance.tickInterval / 10f;
         float elapsed = 0f;
         
@@ -125,7 +125,7 @@ public class Ring : MonoBehaviour
         }
         
         slots[currentSlotIndex].transform.localScale = Vector3.one * 2;
-        currentSlotIndex = (currentSlotIndex - 1 + slots.Count) % slots.Count;
+        currentSlotIndex = (currentSlotIndex + 1 + slots.Count) % slots.Count;
         slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
         
         transform.localEulerAngles = endRotation;
