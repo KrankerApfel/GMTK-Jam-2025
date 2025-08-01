@@ -11,8 +11,11 @@ public class Sequencer : MonoBehaviour
     
     [SerializeField]
     private ActionSequencer actionSequencer;
+    private List<ActionBase> actionSequence;
+    private int introActionIndex = 0;
 
     public string BeatMap = "1000";
+    private BeatMap beatMapUI;
     public int BPM = 60;
     public int BarCount = 6;
     private int SlotCount;
@@ -21,9 +24,9 @@ public class Sequencer : MonoBehaviour
     [HideInInspector]
     public float tickInterval;
     // [HideInInspector] public int SlotCount;
-    private float startTime;
     private float latency;
     private float tickStamp;
+    private float titleStartTime, introStartTime, gameStartTime, elapsedTime;
 
     private AudioSource audioSource;
     public AudioClip TickClip;
@@ -33,10 +36,9 @@ public class Sequencer : MonoBehaviour
     public AudioClip MusicClip;
     public float MusicOffset = 0f;
 
-    private bool isPlaying;
+    private bool isPlaying = false;
+    private bool isIntro = false;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -58,23 +60,30 @@ public class Sequencer : MonoBehaviour
         latency = tickInterval / 6f;
         audioSource = GetComponent<AudioSource>();
         ticksPerBar = BeatMap.Length;
+        beatMapUI = UIManager.Instance.BeatMap.GetComponent<BeatMap>();
 
         musicSource = GetComponentInChildren<AudioSource>();
         musicSource.clip = MusicClip;
         musicSource.loop = true;
-        isPlaying = true;
+        // isPlaying = true;
+
+        // StartCoroutine(Ring.Instance.IntroToGamePos());
+        // StartCoroutine(Ring.Instance.GameToIntroPos());
         
-        startTime = Time.time;
+        // gameStartTime = Time.time;
+        UIManager.Instance.ShowLoadingScreen();
     }
 
-    public void Intro()
+    public void StartIntro()
     {
-        
+        introStartTime = Time.time;
+        isIntro = true;
+        introActionIndex = 0;
     }
     
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
-        List<ActionBase> sequence = new List<ActionBase>();
+        actionSequence = new List<ActionBase>();
         for (int i = 0; i < SlotCount; i++)
         {
             if(fixedSequence.Length > 0)
@@ -83,17 +92,16 @@ public class Sequencer : MonoBehaviour
                 
                 if(tmpSeq == null)
                 {
-                    sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
+                    actionSequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
                 }
-                else sequence.Add(fixedSequence[i% fixedSequence.Length]);
+                else actionSequence.Add(fixedSequence[i% fixedSequence.Length]);
             }
-            else sequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
+            else actionSequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
         }
         
-        actionSequencer.SetNewActions(sequence.ToArray());
-        Ring.Instance.AddSlots(sequence.ToArray());
+        actionSequencer.SetNewActions(actionSequence.ToArray());
+        Ring.Instance.AddSlots(actionSequence.ToArray());
     }
-
 
     public void Stop()
     {
@@ -102,54 +110,76 @@ public class Sequencer : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isPlaying)
+        
+        if (!isPlaying && !isIntro)
             return;
         
-        float elapsedTime = Time.time - startTime;
-
-        // if not on it return
+        elapsedTime = Time.time - Math.Max(gameStartTime, introStartTime);
+        
         if (elapsedTime % tickInterval <= Time.fixedDeltaTime)
         {
-            StartAnimation();
+            TickAnimation();
             tickStamp = elapsedTime + latency;
         }
-        else if (elapsedTime > tickStamp && elapsedTime - tickStamp <= Time.fixedDeltaTime) Tick();
+        else if (elapsedTime > tickStamp && elapsedTime - tickStamp <= Time.fixedDeltaTime) TickSound();
+        
     }
 
-    private void StartAnimation()
+    private void TickAnimation()
     {
-        if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
+        // if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
         // Check which tick we are on
-        int tickIndex = (int)((Time.time - startTime) / tickInterval);
+        int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
         
+        //Tick
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
             //if next is a bar
             if (BeatMap[(tickIndex+1)%ticksPerBar] == '1')
                 StartCoroutine(Ring.Instance.PlayAnimation("PreTransition"));
             else StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
+
+            if (isIntro && introActionIndex == actionSequence.Count)
+            {
+                introActionIndex++;
+                gameStartTime = Time.time;
+                UIManager.Instance.FinishIntro();
+                StartCoroutine(PlayMusic());
+            }
         }
         
+        //Bar
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             StartCoroutine(Ring.Instance.Rotate());
             StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
+            if(isIntro) introActionIndex++;
         }
     }
 
-    private void Tick()
+    private void TickSound()
     {
-        int tickIndex = (int)((Time.time - startTime) / tickInterval);
+        int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
         
+        if(isIntro) beatMapUI.Advance();
+        
+        //Tick
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
             audioSource.PlayOneShot(TickClip);
+            if (isIntro && introActionIndex > actionSequence.Count)
+            {
+                isIntro = false;
+                isPlaying = true;
+            }
         }
         
+        //Bar
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             audioSource.PlayOneShot(BarClip);
-            PlayAction();
+            if(isPlaying) PlayAction();
+            // if(isIntro) Ring.Instance.ShowIconOnebyOne();
         }
     }
     

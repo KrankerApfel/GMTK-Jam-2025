@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ public class Ring : MonoBehaviour
 {
     public static Ring Instance { get; private set; }
     
+    private ActionBase[] actions;
     private List<GameObject> slots;
     private int currentSlotIndex = 0;
     private int startAngle = 135;
@@ -16,6 +18,13 @@ public class Ring : MonoBehaviour
     public Animator animator;
     
     public GameObject SlotPrefab;
+    public Sprite QuestionIcon;
+    public List<Image> icons;
+
+    private Vector3 gamePos;
+    private Vector3 gameScale;
+    private Vector3 introPos;
+    private Vector3 introScale;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,10 +43,20 @@ public class Ring : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        gamePos = transform.position;
+        gameScale = transform.localScale;
+        introPos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        introScale = gameScale * 4f;
+
+        transform.position = introPos;
+        transform.localScale = introScale;
     }
 
-    public void AddSlots(ActionBase[] actions)
+    public void AddSlots(ActionBase[] actionSequence)
     {
+        actions = actionSequence;
+        
         currentSlotIndex = actions.Length - 1;
         
         // create slots
@@ -63,29 +82,11 @@ public class Ring : MonoBehaviour
             slot.transform.localPosition = new Vector3(x, y, 0) * ringRaduis;
 
             Image image = slot.GetComponent<Image>();
-            if (image != null)
-            {
-                // generate pastel color
-                // image.color = new Color(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), 1f);
-                image.sprite = actions[i].ActionIcon;
-            }
+            image.sprite = QuestionIcon;
+            icons.Add(image);
 
             slots.Add(slot);
-            // slots.Insert(0, slot);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.RightArrow))
-        // {
-        //     transform.Rotate(0, 0, -360f / SlotCount);
-        // }
-        // else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        // {
-        //     transform.Rotate(0, 0, 360f / SlotCount);
-        // }
     }
 
     public IEnumerator PlayAnimation(string animationName)
@@ -103,12 +104,11 @@ public class Ring : MonoBehaviour
     {
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / slots.Count;
-        float duration = Sequencer.Instance.tickInterval / 10f;
+        float duration = Sequencer.Instance.tickInterval / 6f;
         float elapsed = 0f;
         
         Vector3 startRotation = transform.localEulerAngles;
         Vector3 endRotation = startRotation + new Vector3(0, 0, angle);
-        
         
         while (elapsed < duration)
         {
@@ -128,6 +128,9 @@ public class Ring : MonoBehaviour
         currentSlotIndex = (currentSlotIndex + 1 + slots.Count) % slots.Count;
         slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
         
+        if(icons[currentSlotIndex].sprite == QuestionIcon) 
+            icons[currentSlotIndex].sprite = actions[currentSlotIndex].ActionIcon;
+        
         transform.localEulerAngles = endRotation;
         foreach (var slot in slots)
         {
@@ -135,4 +138,44 @@ public class Ring : MonoBehaviour
         }
     }
 
+    public IEnumerator IntroToGamePos()
+    {
+        float duration = Sequencer.Instance.tickInterval / 6f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(introPos, gamePos, elapsed / duration);
+            transform.localScale = Vector3.Lerp(introScale, gameScale, elapsed / duration);
+            
+            elapsed += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        transform.position = gamePos;
+        transform.localScale = gameScale;
+        
+        // currentSlotIndex = 0;
+    }
+    
+    public IEnumerator GameToIntroPos()
+    {
+        float duration = Sequencer.Instance.tickInterval / 6f;
+        float elapsed = 0f;
+        
+        while (elapsed < duration)
+        {
+            transform.position = Vector3.Lerp(gamePos, introPos, elapsed / duration);
+            transform.localScale = Vector3.Lerp(gameScale, introScale, elapsed / duration);
+            
+            elapsed += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+    }
+
+    // public IEnumerator ShowIconOnebyOne()
+    // { 
+    //     icons[currentSlotIndex].sprite = actions[currentSlotIndex].ActionIcon;
+    //     yield return null;
+    // }
 }

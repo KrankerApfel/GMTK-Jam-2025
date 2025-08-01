@@ -33,6 +33,6 @@ Material:
     - _OutlineStrength: 1.5
     - _ToonSteps: 4
     m_Colors:
-    - _Resolution: {r: 1001, g: 563, b: 0, a: 0}
+    - _Resolution: {r: 1080, g: 608, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
