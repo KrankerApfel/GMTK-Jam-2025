@@ -31,6 +31,8 @@ public class Sequencer : MonoBehaviour
     private AudioSource musicSource;
     public AudioClip MusicClip;
     public float MusicOffset = 0f;
+
+    private bool isPlaying;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -54,6 +56,7 @@ public class Sequencer : MonoBehaviour
         musicSource = GetComponentInChildren<AudioSource>();
         musicSource.clip = MusicClip;
         musicSource.loop = true;
+        isPlaying = true;
 
         SlotCount = 0;
         foreach (var c in BeatMap)
@@ -75,8 +78,16 @@ public class Sequencer : MonoBehaviour
     }
 
 
+    public void Stop()
+    {
+        isPlaying = false;
+    }
+
     void FixedUpdate()
     {
+        if (!isPlaying)
+            return;
+
         // if not on it return
         if (Time.time % tickInterval <= Time.fixedDeltaTime)
         {

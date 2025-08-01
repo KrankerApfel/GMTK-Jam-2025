@@ -19,13 +19,7 @@ public class ActionDoubleJump : ActionBase
     [SerializeField] private bool disableMovementDuringJump = true;
 
 
-
-    public void FixedUpdate()
-    {
-        timer += Time.fixedDeltaTime;
-    }
-
-    public IEnumerator waitUntilSecondJump()
+    public IEnumerator doubleJump()
     {
         if (disableMovementDuringJump)
         {
@@ -37,34 +31,25 @@ public class ActionDoubleJump : ActionBase
 
         yield return new WaitForSeconds(jumpInterval);
         rigidBody.linearVelocity = new Vector2(playerPhysics.Velocity.x, jumpForce);
-        has_jump = true;
+
+        yield return new WaitForSeconds(duration - jumpInterval);
+
+        if (disableMovementDuringJump)
+        {
+            playerPhysics.DisableMovement(false);
+        }
+
+
     }
 
 
     public override void HandleAction()
     {
         Debug.Log("ActionDoubleJump");
-        Debug.Log(timer);
 
-        if (timer >= duration)
-        {     if (disableMovementDuringJump)
-            {
-                playerPhysics.DisableMovement(false);
-            }
-            timer = 0f;
-            has_jump = false;
-            OnActionFinished?.Invoke();
-        }
-        Debug.Log(timer);
+        StartCoroutine(doubleJump());
+        OnActionFinished?.Invoke();
 
-        if (timer <= jumpInterval && !has_jump) //init phase => first jump
-        {
-            StartCoroutine(waitUntilSecondJump());
-    
-
-
-
-        }
 
     }
 

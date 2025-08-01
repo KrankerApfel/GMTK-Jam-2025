@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs))]
@@ -18,10 +19,13 @@ public class PlayerPhysics : MonoBehaviour
 
     public Vector2 Velocity => rigidBody.linearVelocity;
 
+    public Action OnPlayerDestroyed;
+
     private Rigidbody2D rigidBody;
     private PlayerInputs inputs;
     private bool isGrounded;
     private bool disableMovement;
+
 
     private void Awake()
     {
@@ -69,5 +73,9 @@ public class PlayerPhysics : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);
     }
-  
+
+    private void OnDestroy()
+    {
+        OnPlayerDestroyed?.Invoke();
+    }
 }
