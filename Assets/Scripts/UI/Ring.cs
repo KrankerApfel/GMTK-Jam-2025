@@ -25,6 +25,7 @@ public class Ring : MonoBehaviour
     private Vector3 gameScale;
     private Vector3 introPos;
     private Vector3 introScale;
+    public float zoomScale = 4f;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,7 +48,7 @@ public class Ring : MonoBehaviour
         gamePos = transform.position;
         gameScale = transform.localScale;
         introPos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-        introScale = gameScale * 4f;
+        introScale = gameScale * zoomScale;
 
         transform.position = introPos;
         transform.localScale = introScale;

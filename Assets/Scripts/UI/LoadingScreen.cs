@@ -53,7 +53,10 @@ public class LoadingScreen : MonoBehaviour
             yield return null;
         }
         panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, 0f);
+        loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, 0f);
         
         Sequencer.Instance.StartIntro();
+        
+        gameObject.SetActive(false);
     }
 }

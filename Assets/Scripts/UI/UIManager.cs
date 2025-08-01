@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        BeatMap.SetActive(true);
     }
 
     public void ShowLoadingScreen()

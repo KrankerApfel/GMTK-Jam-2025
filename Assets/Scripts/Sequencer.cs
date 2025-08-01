@@ -36,7 +36,7 @@ public class Sequencer : MonoBehaviour
     public AudioClip MusicClip;
     public float MusicOffset = 0f;
 
-    private bool isPlaying = false;
+    [HideInInspector] public bool isPlaying = false;
     private bool isIntro = false;
     
     private void Awake()
