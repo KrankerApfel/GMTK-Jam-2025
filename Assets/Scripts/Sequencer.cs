@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Sequencer : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Sequencer : MonoBehaviour
     public string BeatMap = "1000";
     public int BPM = 60;
     public int BarCount = 6;
+    private int SlotCount;
     
     private int ticksPerBar;
     [HideInInspector]
@@ -53,7 +55,25 @@ public class Sequencer : MonoBehaviour
         musicSource.clip = MusicClip;
         musicSource.loop = true;
 
+        SlotCount = 0;
+        foreach (var c in BeatMap)
+        { if (c == '1') SlotCount++; }
+        SlotCount *= BarCount;
     }
+    
+    public void CreateSequence(ActionBase[] actions)
+    {
+        List<ActionBase> sequence = new List<ActionBase>();
+        for (int i = 0; i < SlotCount; i++)
+        {
+            //randomly select an action from the actions array
+            sequence.Add(actions[Random.Range(0, actions.Length)]);
+        }
+        
+        actionSequencer.SetNewActions(sequence.ToArray());
+        Ring.Instance.AddSlots(sequence.ToArray());
+    }
+
 
     void FixedUpdate()
     {

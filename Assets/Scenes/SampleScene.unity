@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.8
+  ActionName: 
+  ActionIcon: {fileID: 7110878671101974141, guid: 060d1f7445c514806b95447b9e15ecee, type: 3}
   playerPhysics: {fileID: 1365552865}
   dashSpeed: 20
   direction: {x: 1, y: 0}
@@ -481,6 +483,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
+  ActionName: 
+  ActionIcon: {fileID: -60743645155883428, guid: 86799297bee0641cc9feeb0603467696, type: 3}
   playerPhysics: {fileID: 1365552865}
   jumpForce: 25
   disableMovementDuringJump: 1

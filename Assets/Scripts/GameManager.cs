@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ActionBase[] selectedActions = actions.GetRange(0,3).ToArray();
-        actionSequencer.SetNewActions(selectedActions);
+        // ActionBase[] selectedActions = actions.GetRange(0,3).ToArray();
+        // actionSequencer.SetNewActions(selectedActions);
+        
+        Sequencer.Instance.CreateSequence(actions.ToArray());
     }
 
 }
