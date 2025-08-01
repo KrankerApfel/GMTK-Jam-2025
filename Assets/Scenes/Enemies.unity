@@ -1143,10 +1143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionSequencer: {fileID: 1365552870}
+  sequencer: {fileID: 1632328482}
   actions:
   - {fileID: 671219498}
   - {fileID: 111686456}
   - {fileID: 111686456}
+  player: {fileID: 1365552865}
 --- !u!4 &1565773325
 Transform:
   m_ObjectHideFlags: 0
@@ -1249,6 +1251,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+--- !u!114 &1632328482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
+  m_PrefabInstance: {fileID: 1632328481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653ccb8948cf747e99b861ddd24b050d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1683280915
 GameObject:
   m_ObjectHideFlags: 0
