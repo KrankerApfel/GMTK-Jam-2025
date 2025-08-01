@@ -21,6 +21,7 @@ public class Sequencer : MonoBehaviour
     [HideInInspector]
     public float tickInterval;
     // [HideInInspector] public int SlotCount;
+    private float startTime;
     private float latency;
     private float tickStamp;
 
@@ -62,6 +63,13 @@ public class Sequencer : MonoBehaviour
         musicSource.clip = MusicClip;
         musicSource.loop = true;
         isPlaying = true;
+        
+        startTime = Time.time;
+    }
+
+    public void Intro()
+    {
+        
     }
     
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
@@ -96,21 +104,23 @@ public class Sequencer : MonoBehaviour
     {
         if (!isPlaying)
             return;
+        
+        float elapsedTime = Time.time - startTime;
 
         // if not on it return
-        if (Time.time % tickInterval <= Time.fixedDeltaTime)
+        if (elapsedTime % tickInterval <= Time.fixedDeltaTime)
         {
             StartAnimation();
-            tickStamp = Time.time + latency;
+            tickStamp = elapsedTime + latency;
         }
-        else if (Time.time > tickStamp && Time.time - tickStamp <= Time.fixedDeltaTime) Tick();
+        else if (elapsedTime > tickStamp && elapsedTime - tickStamp <= Time.fixedDeltaTime) Tick();
     }
 
     private void StartAnimation()
     {
         if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
         // Check which tick we are on
-        int tickIndex = (int)(Time.time / tickInterval);
+        int tickIndex = (int)((Time.time - startTime) / tickInterval);
         
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
@@ -129,7 +139,7 @@ public class Sequencer : MonoBehaviour
 
     private void Tick()
     {
-        int tickIndex = (int)(Time.time / tickInterval);
+        int tickIndex = (int)((Time.time - startTime) / tickInterval);
         
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
