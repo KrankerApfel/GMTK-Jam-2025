@@ -6,14 +6,12 @@ public class PacingEnemy : Enemy
     Transform[] pacingPoints;
     int currentPointIndex = 0;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Init()
     {
-        base.Start();
+        base.Init();
         pacingPoints = transform.parent.GetComponentsInChildren<Transform>().Where(t => t != transform).ToArray();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if((transform.position - pacingPoints[currentPointIndex].position).magnitude < 0.5f)

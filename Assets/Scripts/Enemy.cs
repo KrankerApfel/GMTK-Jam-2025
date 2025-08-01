@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,16 +6,15 @@ public class Enemy : MonoBehaviour
     public int speed = 2;
     protected Rigidbody2D rigidBody;
     protected bool chasing = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     protected void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Init()
     {
-        
     }
 
     private void OnTriggerStay2D(Collider2D other)
