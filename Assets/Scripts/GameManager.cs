@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,16 +8,16 @@ public class GameManager : MonoBehaviour
     private ActionSequencer actionSequencer;
     [SerializeField]
     private Sequencer sequencer;
-    [SerializeField]
-    private List<ActionBase> actions;
+    [FormerlySerializedAs("actions")] [SerializeField]
+    private List<ActionBase> actionPool;
     [SerializeField]
     private PlayerPhysics player;
 
     private void Start()
     {
-        // ActionBase[] selectedActions = actions.GetRange(0,3).ToArray();
+        // ActionBase[] selectedActions = actionPool.GetRange(0,3).ToArray();
         // actionSequencer.SetNewActions(selectedActions);
-        Sequencer.Instance.CreateSequence(actions.ToArray());
+        Sequencer.Instance.CreateSequence(actionPool.ToArray());
 
         player.OnPlayerDestroyed += OnPlayerDestroyed;
     }

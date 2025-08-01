@@ -44,6 +44,11 @@ public class Sequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        
+        SlotCount = 0;
+        foreach (var c in BeatMap)
+        { if (c == '1') SlotCount++; }
+        SlotCount *= BarCount;
     }
 
     void Start()
@@ -57,11 +62,6 @@ public class Sequencer : MonoBehaviour
         musicSource.clip = MusicClip;
         musicSource.loop = true;
         isPlaying = true;
-
-        SlotCount = 0;
-        foreach (var c in BeatMap)
-        { if (c == '1') SlotCount++; }
-        SlotCount *= BarCount;
     }
     
     public void CreateSequence(ActionBase[] actions)
