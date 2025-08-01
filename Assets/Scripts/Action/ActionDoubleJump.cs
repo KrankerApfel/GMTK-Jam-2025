@@ -39,6 +39,7 @@ public class ActionDoubleJump : ActionBase
             playerPhysics.DisableMovement(false);
         }
 
+
     }
 
 
@@ -47,6 +48,7 @@ public class ActionDoubleJump : ActionBase
         Debug.Log("ActionDoubleJump");
 
         StartCoroutine(doubleJump());
+        OnActionFinished?.Invoke();
 
 
     }
