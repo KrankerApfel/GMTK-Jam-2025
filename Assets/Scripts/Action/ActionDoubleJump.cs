@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class ActionDoubleJump : ActionBase
 {
     [Header("Physics")]
@@ -8,35 +8,46 @@ public class ActionDoubleJump : ActionBase
     private Rigidbody2D rigidBody;
 
     [SerializeField]
-    private float jumpForce = 15f;
-
- 
-    [SerializeField]
-    private float speed = 10f;
+    private float jumpForce = 25f;
     
     private float timer = 0f;
-    private float jumpInterval = 0.5f;
+    private float jumpInterval = 0.3f;
     private bool has_jump = false;
+
+    public void FixedUpdate()
+    {
+        timer += Time.fixedDeltaTime;
+    }
+
+    public IEnumerator waitUntilSecondJump()
+    {
+                Debug.Log("start");
+        rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
+        yield return new WaitForSeconds(jumpInterval);
+        rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
+        has_jump = true;
+
+        Debug.Log("end");
+
+    }
 
 
     public override void HandleAction()
     {
         Debug.Log("ActionDoubleJump");
-        timer += Time.deltaTime;
+        Debug.Log(timer);
+
         if (timer >= duration)
         {
             timer = 0f;
-        }
-        else if (timer <= jumpInterval && !has_jump) //init phase => first jump
-        {
-            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
-            has_jump = true;
-        }
-        else if (timer > jumpInterval && has_jump) //second jump
-        {
-            rigidBody.linearVelocity = new Vector2(rigidBody.linearVelocity.x, jumpForce);
             has_jump = false;
 
+        }
+        Debug.Log(timer);
+
+        if (timer <= jumpInterval && !has_jump) //init phase => first jump
+        {
+            StartCoroutine(waitUntilSecondJump());
 
         }
 
