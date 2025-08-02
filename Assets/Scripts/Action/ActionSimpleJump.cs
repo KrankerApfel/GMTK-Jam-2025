@@ -9,6 +9,12 @@ public class ActionSimpleJump : ActionBase
     [Tooltip("Bloque temporairement les mouvements horizontaux du joueur")]
     [SerializeField] private bool disableMovementDuringJump = true;
 
+
+    public override void Init()
+    {
+        playerPhysics = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPhysics>();
+    }
+
     public override void HandleAction()
     {
         if (disableMovementDuringJump)

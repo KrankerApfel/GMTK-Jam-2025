@@ -16,8 +16,12 @@ public class ActionDash : ActionBase
     new Keyframe(0.18f, 0f, -10f, -10f)
 );
 
-
     private Coroutine dashCoroutine;
+
+    public override void Init()
+    {
+        playerPhysics = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPhysics>();
+    }
 
     public override void HandleAction()
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class ActionResetLevel : ActionBase
 {
-
+   
     public override void HandleAction()
     {
         Debug.Log("Reset Scene");

@@ -20,6 +20,7 @@ public class ActionGhost : ActionBase
 
     void Awake()
     {
+        Init();
         if (player == null)
         {
             Debug.LogError("Player not assigned.");
@@ -46,6 +47,11 @@ public class ActionGhost : ActionBase
 
     }
 
+    public override void Init()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerColliderObject = player;
+    }
 
     public override void HandleAction()
     {
