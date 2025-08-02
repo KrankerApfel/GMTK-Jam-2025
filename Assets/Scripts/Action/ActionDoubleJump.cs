@@ -12,9 +12,7 @@ public class ActionDoubleJump : ActionBase
     [SerializeField]
     private float jumpForce = 25f;
     
-    private float timer = 0f;
     private float jumpInterval = 0.3f;
-    private bool has_jump = false;
 
     [SerializeField] private bool disableMovementDuringJump = true;
 
@@ -45,12 +43,8 @@ public class ActionDoubleJump : ActionBase
 
     public override void HandleAction()
     {
-        Debug.Log("ActionDoubleJump");
-
         StartCoroutine(doubleJump());
         OnActionFinished?.Invoke();
-
-
     }
 
 }

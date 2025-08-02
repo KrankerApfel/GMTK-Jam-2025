@@ -66,14 +66,12 @@ public class ActionGhost : ActionBase
 
         // change player collider to the ghostlayer
         playerColliderObject.layer = ghostLayer_num;
-        Debug.Log("Mode Ghost");
         spriteRenderer.color = ghostColor;
 
 
         yield return new WaitForSeconds(0.7f * duration);
         // change player collider back to the playerLayer
         playerColliderObject.layer = playerLayer_num;
-        Debug.Log("Mode Ghost deactivated");
         spriteRenderer.color = normalColor;
         yield return new WaitForSeconds(0.3f*duration); // bug let some time for moving player to a different layer
 
