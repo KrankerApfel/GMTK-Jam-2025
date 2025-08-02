@@ -176,14 +176,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionSequencer: {fileID: 0}
+  actionPool: []
   BeatMap: 0001
   BPM: 60
   BarCount: 4
   tickInterval: 0
+  gachaInterval: 10
+  audioSource: {fileID: 0}
   TickClip: {fileID: 8300000, guid: dd8f37f7f7f564985a8543fb01a03a52, type: 3}
   BarClip: {fileID: 8300000, guid: 7a6637c41bde14c0ab16ace65a9cfe3e, type: 3}
   MusicClip: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
   MusicOffset: 0
+  isPlaying: 0
+  isIntro: 0
 --- !u!82 &4151668244448524647
 AudioSource:
   m_ObjectHideFlags: 0

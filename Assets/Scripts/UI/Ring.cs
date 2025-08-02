@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Ring : MonoBehaviour
 {
@@ -15,11 +16,12 @@ public class Ring : MonoBehaviour
     private int startAngle = 135;
     private float ringRaduis = 5f - 5f * 0.1f / 2;
     
-    public Animator animator;
+    [SerializeField] public Animator animator;
     
-    public GameObject SlotPrefab;
-    public Sprite QuestionIcon;
-    public List<Image> icons;
+    [SerializeField] public GameObject SlotPrefab;
+    [SerializeField] public Sprite QuestionIcon;
+    [HideInInspector] public List<Image> icons;
+    public Image CenterImage;
 
     private Vector3 gamePos;
     private Vector3 gameScale;
@@ -103,8 +105,7 @@ public class Ring : MonoBehaviour
 
     public IEnumerator Rotate()
     {
-        // print("rotate");
-        
+        bool isIntro = Sequencer.Instance.isIntro;
         // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / slots.Count;
         float duration = Sequencer.Instance.tickInterval / 6f;
@@ -116,14 +117,11 @@ public class Ring : MonoBehaviour
         while (elapsed < duration)
         {
             transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, elapsed / duration);
-
             foreach (var slot in slots)
-            {
-                slot.transform.localEulerAngles = -Vector3.Lerp(startRotation, endRotation, elapsed / duration);
-            }
+                slot.transform.transform.rotation = Quaternion.Euler(0, 0, 0);
+            if (isIntro) CenterImage.transform.rotation = Quaternion.Euler(0, 0, 0);
             
             elapsed += Time.deltaTime;
-            //wait delta time
             yield return new WaitForSeconds(Time.deltaTime);
         }
         
@@ -131,18 +129,23 @@ public class Ring : MonoBehaviour
         currentSlotIndex = (currentSlotIndex + 1 + slots.Count) % slots.Count;
         slots[currentSlotIndex].transform.localScale = Vector3.one * 3;
         
-        if(icons[currentSlotIndex].sprite == QuestionIcon) 
+        if(icons[currentSlotIndex].sprite == QuestionIcon)
             icons[currentSlotIndex].sprite = actions[currentSlotIndex].ActionIcon;
         
         transform.localEulerAngles = endRotation;
         foreach (var slot in slots)
+            slot.transform.transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (isIntro)
         {
-            slot.transform.localEulerAngles = -endRotation;
+            CenterImage.enabled = true;
+            CenterImage.sprite = actions[currentSlotIndex].ActionIcon;
+            CenterImage.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
     public IEnumerator IntroToGamePos()
     {
+        CenterImage.enabled = false;
         float duration = Sequencer.Instance.tickInterval / 6f;
         float elapsed = 0f;
 

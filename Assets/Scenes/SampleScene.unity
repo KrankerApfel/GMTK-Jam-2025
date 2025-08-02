@@ -161,12 +161,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 794368750642244378, guid: 518217ea93b9945b49b4205ed9111964, type: 3}
-      propertyPath: BPM
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 794368750642244378, guid: 518217ea93b9945b49b4205ed9111964, type: 3}
-      propertyPath: BeatMap
-      value: 01
+      propertyPath: BarCount
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1283020924649888776, guid: 518217ea93b9945b49b4205ed9111964, type: 3}
       propertyPath: m_Name

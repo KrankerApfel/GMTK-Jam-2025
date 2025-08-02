@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Sequencer : MonoBehaviour
@@ -11,6 +12,8 @@ public class Sequencer : MonoBehaviour
     
     [SerializeField]
     private ActionSequencer actionSequencer;
+
+    [SerializeField] public ActionBase[] actionPool;
     private List<ActionBase> actionSequence;
     private int introActionIndex = 0;
 
@@ -20,6 +23,7 @@ public class Sequencer : MonoBehaviour
     public int BarCount = 6;
     private int SlotCount;
     
+    
     private int ticksPerBar;
     [HideInInspector]
     public float tickInterval;
@@ -27,18 +31,20 @@ public class Sequencer : MonoBehaviour
     private float latency;
     private float tickStamp;
     private float titleStartTime, introStartTime, gameStartTime, elapsedTime;
+    [SerializeField] private float gachaInterval = 10f;
 
-    private AudioSource audioSource;
+
+    [HideInInspector] public AudioSource audioSource;
     public AudioClip TickClip;
     public AudioClip BarClip;
     
     private AudioSource musicSource;
-    public AudioClip MusicClip;
+    [SerializeField] private AudioClip MusicClip;
     public float MusicOffset = 0f;
 
     [HideInInspector] public bool isPlaying = false;
-    private bool isIntro = false;
-    
+    [HideInInspector] public bool isIntro = false;
+    private bool gachaing = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -62,7 +68,7 @@ public class Sequencer : MonoBehaviour
         ticksPerBar = BeatMap.Length;
         beatMapUI = UIManager.Instance.BeatMap.GetComponent<BeatMap>();
 
-        musicSource = GetComponentInChildren<AudioSource>();
+        musicSource = transform.GetChild(0).GetComponent<AudioSource>();
         musicSource.clip = MusicClip;
         musicSource.loop = true;
         // isPlaying = true;
@@ -83,6 +89,7 @@ public class Sequencer : MonoBehaviour
     
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
+        this.actionPool = actionPool;
         actionSequence = new List<ActionBase>();
         for (int i = 0; i < SlotCount; i++)
         {
@@ -169,20 +176,41 @@ public class Sequencer : MonoBehaviour
         //Tick
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
-            audioSource.PlayOneShot(TickClip);
+            audioSource.clip = TickClip;
             if (isIntro && introActionIndex > actionSequence.Count)
             {
                 isIntro = false;
                 isPlaying = true;
             }
+
+            if (isIntro && !gachaing)
+            {
+                gachaing = true;
+                StartCoroutine(Gacha());
+            }
+            audioSource.Play();
         }
         
         //Bar
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
-            audioSource.PlayOneShot(BarClip);
+            audioSource.clip = BarClip;
+            audioSource.Play();
             if(isPlaying) PlayAction();
             // if(isIntro) Ring.Instance.ShowIconOnebyOne();
+            gachaing = false;
+        }
+    }
+    
+    private IEnumerator Gacha()
+    {
+        Image centerImage = Ring.Instance.CenterImage;
+        centerImage.enabled = true;
+        while (Sequencer.Instance.audioSource.clip.name == Sequencer.Instance.TickClip.name)
+        {
+            centerImage.sprite = actionPool[Random.Range(0, actionPool.Length)].ActionIcon;
+            centerImage.transform.rotation = Quaternion.Euler(0, 0, 0);
+            yield return new WaitForSeconds(tickInterval / 100f * gachaInterval);
         }
     }
     

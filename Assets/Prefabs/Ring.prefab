@@ -281,7 +281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4381903561384299297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 4, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1357662976201117730
 CanvasRenderer:
@@ -391,6 +391,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3493302448750186088}
   SlotPrefab: {fileID: 649512896446604171, guid: 333422cf91e42441382d98c4b093c303, type: 3}
+  QuestionIcon: {fileID: 0}
+  icons: []
+  CenterImage: {fileID: 6670968646872702867}
+  zoomScale: 4
 --- !u!1 &8658390592668519539
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +491,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   SlotPrefab: {fileID: 649512896446604171, guid: 333422cf91e42441382d98c4b093c303, type: 3}
+  QuestionIcon: {fileID: 0}
+  icons: []
+  CenterImage: {fileID: 0}
+  zoomScale: 4
 --- !u!95 &3493302448750186088
 Animator:
   serializedVersion: 7

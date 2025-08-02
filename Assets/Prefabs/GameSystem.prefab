@@ -2354,10 +2354,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401285735443185149, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7132789591741509974, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
       propertyPath: m_Name
       value: Sequencer
