@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375689999}
+  - component: {fileID: 375690000}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -153,6 +154,22 @@ Transform:
   - {fileID: 817036145}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &375690000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375689998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c722256cb00d834985907021ded1af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BeatMap: 0001
+  BPM: 60
+  BarCount: 3
+  Music: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
 --- !u!1001 &501357209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344,7 +361,7 @@ GameObject:
   - component: {fileID: 996241196}
   - component: {fileID: 996241198}
   - component: {fileID: 996241197}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1020,7 @@ GameObject:
   - component: {fileID: 1467599846}
   - component: {fileID: 1467599848}
   - component: {fileID: 1467599847}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1282,7 +1299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683280916}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
