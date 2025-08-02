@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class Sequencer : MonoBehaviour
 {
     public static Sequencer Instance { get; private set; }
-    
+
     [SerializeField]
     private ActionSequencer actionSequencer;
 
@@ -22,8 +22,8 @@ public class Sequencer : MonoBehaviour
     public int BPM = 60;
     public int BarCount = 6;
     private int SlotCount;
-    
-    
+
+
     private int ticksPerBar;
     [HideInInspector]
     public float tickInterval;
@@ -37,7 +37,7 @@ public class Sequencer : MonoBehaviour
     [HideInInspector] public AudioSource audioSource;
     public AudioClip TickClip;
     public AudioClip BarClip;
-    
+
     private AudioSource musicSource;
     [SerializeField] private AudioClip MusicClip;
     public float MusicOffset = 0f;
@@ -53,7 +53,7 @@ public class Sequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         SlotCount = 0;
         foreach (var c in BeatMap)
         { if (c == '1') SlotCount++; }
@@ -75,7 +75,7 @@ public class Sequencer : MonoBehaviour
 
         // StartCoroutine(Ring.Instance.IntroToGamePos());
         // StartCoroutine(Ring.Instance.GameToIntroPos());
-        
+
         // gameStartTime = Time.time;
         UIManager.Instance.ShowLoadingScreen();
     }
@@ -86,26 +86,26 @@ public class Sequencer : MonoBehaviour
         isIntro = true;
         introActionIndex = 0;
     }
-    
+
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
         this.actionPool = actionPool;
         actionSequence = new List<ActionBase>();
         for (int i = 0; i < SlotCount; i++)
         {
-            if(fixedSequence.Length > 0)
+            if (fixedSequence.Length > 0)
             {
-                ActionBase tmpSeq = fixedSequence[i%fixedSequence.Length]; 
-                
-                if(tmpSeq == null)
+                ActionBase tmpSeq = fixedSequence[i % fixedSequence.Length];
+
+                if (tmpSeq == null)
                 {
                     actionSequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
                 }
-                else actionSequence.Add(fixedSequence[i% fixedSequence.Length]);
+                else actionSequence.Add(fixedSequence[i % fixedSequence.Length]);
             }
             else actionSequence.Add(actionPool[Random.Range(0, actionPool.Length)]);
         }
-        
+
         actionSequencer.SetNewActions(actionSequence.ToArray());
         Ring.Instance.AddSlots(actionSequence.ToArray());
     }
@@ -117,12 +117,12 @@ public class Sequencer : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
         if (!isPlaying && !isIntro)
             return;
-        
+
         elapsedTime = Time.time - Math.Max(gameStartTime, introStartTime);
-        
+
         if (elapsedTime % tickInterval < Time.fixedDeltaTime)
         {
             TickAnimation();
@@ -132,7 +132,7 @@ public class Sequencer : MonoBehaviour
         {
             TickSound();
         }
-        
+
     }
 
     private void TickAnimation()
@@ -140,12 +140,12 @@ public class Sequencer : MonoBehaviour
         // if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
         // Check which tick we are on
         int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
-        
+
         //Tick
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
             //if next is a bar
-            if (BeatMap[(tickIndex+1)%ticksPerBar] == '1')
+            if (BeatMap[(tickIndex + 1) % ticksPerBar] == '1')
                 StartCoroutine(Ring.Instance.PlayAnimation("PreTransition"));
             else StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
 
@@ -157,22 +157,22 @@ public class Sequencer : MonoBehaviour
                 StartCoroutine(PlayMusic());
             }
         }
-        
+
         //Bar
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             StartCoroutine(Ring.Instance.Rotate());
             StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
-            if(isIntro) introActionIndex++;
+            if (isIntro) introActionIndex++;
         }
     }
 
     private void TickSound()
     {
         int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
-        
-        if(isIntro) beatMapUI.Advance();
-        
+
+        if (isIntro) beatMapUI.Advance();
+
         //Tick
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
@@ -190,32 +190,35 @@ public class Sequencer : MonoBehaviour
             }
             audioSource.Play();
         }
-        
+
         //Bar
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
         {
             audioSource.clip = BarClip;
             audioSource.Play();
-            if(isPlaying) PlayAction();
+            if (isPlaying) PlayAction();
             // if(isIntro) Ring.Instance.ShowIconOnebyOne();
             gachaing = false;
-            
-            beatMapUI.SetActionTitle(actionSequence[(introActionIndex-1+actionSequence.Count)%actionSequence.Count].ActionName);
+
+            beatMapUI.SetActionTitle(actionSequence[(introActionIndex - 1 + actionSequence.Count) % actionSequence.Count].ActionName);
         }
     }
-    
+
     private IEnumerator Gacha()
     {
-        Image centerImage = Ring.Instance.CenterImage;
-        centerImage.enabled = true;
-        while (Sequencer.Instance.audioSource.clip.name == Sequencer.Instance.TickClip.name)
+        if (Ring.Instance != null)
         {
-            centerImage.sprite = actionPool[Random.Range(0, actionPool.Length)].ActionIcon;
-            centerImage.transform.rotation = Quaternion.Euler(0, 0, 0);
-            yield return new WaitForSeconds(tickInterval / 100f * gachaInterval);
+            Image centerImage = Ring.Instance.CenterImage;
+            centerImage.enabled = true;
+            while (Sequencer.Instance.audioSource.clip.name == Sequencer.Instance.TickClip.name)
+            {
+                centerImage.sprite = actionPool[Random.Range(0, actionPool.Length)].ActionIcon;
+                centerImage.transform.rotation = Quaternion.Euler(0, 0, 0);
+                yield return new WaitForSeconds(tickInterval / 100f * gachaInterval);
+            }
         }
     }
-    
+
     private IEnumerator PlayMusic()
     {
         yield return new WaitForSeconds(MusicOffset);

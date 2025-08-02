@@ -489,11 +489,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f690ffe55c474411ab15f1fb5344f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 3493302448750186088}
   SlotPrefab: {fileID: 649512896446604171, guid: 333422cf91e42441382d98c4b093c303, type: 3}
-  QuestionIcon: {fileID: 0}
+  QuestionIcon: {fileID: -8908615837150324199, guid: d30ea5775d7c64a9ea72f1d28341d22a, type: 3}
   icons: []
-  CenterImage: {fileID: 0}
+  CenterImage: {fileID: 6670968646872702867}
   zoomScale: 4
 --- !u!95 &3493302448750186088
 Animator:

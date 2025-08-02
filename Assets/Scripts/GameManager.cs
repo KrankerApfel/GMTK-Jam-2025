@@ -36,8 +36,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Start()
+    private void Init()
     {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        player = playerObj.GetComponent<PlayerPhysics>();
+        actionSequencer = playerObj.GetComponent<ActionSequencer>();
+
         if (actionSequencer != null && actionPool != null && fixedSequence != null)
         {
             Sequencer.Instance.CreateSequence(actionPool.ToArray(), fixedSequence.ToArray());
@@ -93,10 +98,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-
-        player = playerObj.GetComponent<PlayerPhysics>();
-        actionSequencer = playerObj.GetComponent<ActionSequencer>();
+        Init();
 
         foreach (ActionBase action in actionPool)
         {

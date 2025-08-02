@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
 
     public GameObject Ring;
 
-    public GameObject Menu;
     public GameObject Loading;
 
     private void Awake()
@@ -16,7 +15,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
