@@ -33,7 +33,7 @@ public class Sequencer : MonoBehaviour
     public AudioClip BarClip;
 
     private AudioSource musicSource;
-    [SerializeField] private AudioClip MusicClip;
+    [SerializeField] public AudioClip MusicClip;
     public float MusicOffset = 0f;
 
     [HideInInspector] public bool isPlaying = false;
@@ -94,6 +94,11 @@ public class Sequencer : MonoBehaviour
         introActionIndex = 0;
     }
 
+    public void SetMusic(AudioClip clip) 
+    {
+        MusicClip = clip;
+        musicSource.clip = MusicClip;
+    }
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
         Ring.Instance.ResetSlots();
@@ -122,7 +127,11 @@ public class Sequencer : MonoBehaviour
         Ring.Instance.AddSlots(actionSequence.ToArray());
     }
 
-    public void Stop() => isPlaying = false;
+    public void Stop()
+    {
+        isPlaying = false;
+        StopMusic();
+    }
 
     private void FixedUpdate()
     {
@@ -225,6 +234,11 @@ public class Sequencer : MonoBehaviour
     {
         yield return new WaitForSeconds(MusicOffset);
         musicSource.Play();
+    }
+    private IEnumerator StopMusic()
+    {
+        yield return new WaitForSeconds(MusicOffset);
+        musicSource.Stop();
     }
 
     private void PlayAction()
