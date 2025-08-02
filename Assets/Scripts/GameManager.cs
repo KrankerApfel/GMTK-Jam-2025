@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private ActionSequencer actionSequencer;
-    [SerializeField] private PlayerPhysics player;
+    public PlayerPhysics player;
 
     [Header("Sequences")]
     [SerializeField] private List<ActionBase> actionPool;

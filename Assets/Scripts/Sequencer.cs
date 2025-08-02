@@ -84,7 +84,7 @@ public class Sequencer : MonoBehaviour
     {
         yield return null;
         StartIntro();
-        CreateSequence(actionPool, new ActionBase[0]);
+        // CreateSequence(actionPool, new ActionBase[0]);
     }
 
     public void StartIntro()
@@ -182,7 +182,7 @@ public class Sequencer : MonoBehaviour
             {
                 isIntro = false;
                 isPlaying = true;
-                
+                actionSequencer.PlayNextPreAction();
             }
 
             if (isIntro && !gachaing)
@@ -229,7 +229,9 @@ public class Sequencer : MonoBehaviour
 
     private void PlayAction()
     {
+        actionSequencer.PlayLastPostAction();
         actionSequencer.PlayCurrentAction();
+        actionSequencer.PlayNextPreAction();
         actionSequencer.NextAction();
     }
     

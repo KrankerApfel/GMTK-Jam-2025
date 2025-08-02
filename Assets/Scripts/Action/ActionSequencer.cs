@@ -4,7 +4,9 @@ using UnityEngine;
 public class ActionSequencer : MonoBehaviour
 {
     private Queue<ActionBase> actionStack;
+    private ActionBase lastAction;
     private ActionBase currentAction;
+    private ActionBase nextAction;
 
     private void Awake()
     {
@@ -12,14 +14,19 @@ public class ActionSequencer : MonoBehaviour
     }
 
     
-    public void PlayPreAction()
+    public void PlayLastPostAction()
     {
-        // currentAction.PreAction();
+        currentAction?.PostAction();
     }
     
     public void PlayCurrentAction()
     {
         currentAction?.TriggerAction();
+    }
+    
+    public void PlayNextPreAction()
+    {
+        currentAction?.PreAction();
     }
 
     public void SetNewActions(ActionBase[] actions)
@@ -45,9 +52,18 @@ public class ActionSequencer : MonoBehaviour
     public void NextAction()
     {
         if (currentAction != null)
+        {
+            lastAction = currentAction;
             actionStack.Enqueue(currentAction);
-
+        }
+        else
+        { //make sure the PreAction of the first action is called
+            lastAction = actionStack.Peek();
+            actionStack.Enqueue(lastAction);
+        }
+        
         currentAction = actionStack.Dequeue();
+        nextAction = actionStack.Count > 0 ? actionStack.Peek() : null;
     }
 
     private void OnActionStarted()
