@@ -47,42 +47,34 @@ public class ActionGhost : ActionBase
 
     public override void Init()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerColliderObject = GameObject.FindGameObjectWithTag("Foot");
+        player = GameManager.Instance.player.gameObject;
+        playerColliderObject = player.GetComponentInChildren<BoxCollider2D>().gameObject;
         spriteRenderer = player.GetComponent<SpriteRenderer>();
+        
+        ghostLayer_num = LayerMask.NameToLayer("GhostLayer");
+        playerLayer_num = LayerMask.NameToLayer("Player");
     }
 
     public override void HandleAction()
     {
-
-
-        StartCoroutine(DisableCollision());
+        DisableCollision();
         OnActionFinished?.Invoke();
 
     }
 
-    private IEnumerator DisableCollision()
+    private void DisableCollision()
     {
-        ghostLayer_num = LayerMask.NameToLayer("GhostLayer");
-
-        playerLayer_num = LayerMask.NameToLayer("Player");
-
-
-
         // change player collider to the ghostlayer
         playerColliderObject.layer = ghostLayer_num;
         spriteRenderer.color = ghostColor;
-
-
-        yield return new WaitForSeconds(0.7f * duration);
-        // change player collider back to the playerLayer
-        playerColliderObject.layer = playerLayer_num;
-        spriteRenderer.color = normalColor;
-        yield return new WaitForSeconds(0.3f*duration); // bug let some time for moving player to a different layer
-
-
     }
     
     public override void PreAction() { return; }
-    public override void PostAction() { return; }
+
+    public override void PostAction()
+    {
+        // change player collider back to the playerLayer
+        playerColliderObject.layer = playerLayer_num;
+        spriteRenderer.color = normalColor;
+    }
 }
