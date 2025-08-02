@@ -170,6 +170,7 @@ MonoBehaviour:
   BPM: 60
   BarCount: 3
   Music: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
+  actionNames: []
 --- !u!1001 &501357209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1305,7 +1306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1683280916
 Transform:
   m_ObjectHideFlags: 0
