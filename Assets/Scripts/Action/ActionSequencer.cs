@@ -6,7 +6,7 @@ public class ActionSequencer : MonoBehaviour
     private Queue<ActionBase> actionStack;
     private ActionBase lastAction;
     private ActionBase currentAction;
-    private ActionBase nextAction;
+    [HideInInspector] public ActionBase nextAction;
 
     private void Awake()
     {

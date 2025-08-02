@@ -172,7 +172,6 @@ public class Sequencer : MonoBehaviour
                 gameStartTime = introStartTime;
                 UIManager.Instance.FinishIntro();
                 StartCoroutine(PlayMusic());
-                // actionSequencer.PlayNextPreAction();
             }
         }
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
@@ -197,6 +196,7 @@ public class Sequencer : MonoBehaviour
                 isIntro = false;
                 isPlaying = true;
                 actionSequencer.PlayNextPreAction();
+                actionSequencer.nextAction = null;
             }
 
             if (isIntro && !gachaing)
