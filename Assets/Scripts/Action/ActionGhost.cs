@@ -7,7 +7,9 @@ public class ActionGhost : ActionBase
     [SerializeField]
     public GameObject playerColliderObject;     
     [SerializeField]
-    public GameObject player;     
+    public GameObject player;
+
+    private Collision2D foot; 
 
     private int playerLayer_num;
     private int ghostLayer_num;
@@ -46,7 +48,7 @@ public class ActionGhost : ActionBase
     public override void Init()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerColliderObject = player;
+        playerColliderObject = GameObject.FindGameObjectWithTag("Foot");
         spriteRenderer = player.GetComponent<SpriteRenderer>();
     }
 
