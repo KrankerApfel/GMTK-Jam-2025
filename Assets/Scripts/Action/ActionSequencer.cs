@@ -11,6 +11,11 @@ public class ActionSequencer : MonoBehaviour
         actionStack = new Queue<ActionBase>();
     }
     
+    public void PlayPreAction()
+    {
+        // currentAction.PreAction();
+    }
+    
     public void PlayCurrentAction()
     {
         currentAction?.TriggerAction();

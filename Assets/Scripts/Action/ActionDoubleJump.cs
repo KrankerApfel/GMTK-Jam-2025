@@ -46,6 +46,9 @@ public class ActionDoubleJump : ActionBase
         StartCoroutine(doubleJump());
         OnActionFinished?.Invoke();
     }
+    
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
 
 }
 

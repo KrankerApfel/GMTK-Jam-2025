@@ -137,8 +137,6 @@ public class Sequencer : MonoBehaviour
 
     private void TickAnimation()
     {
-        // if (!musicSource.isPlaying) StartCoroutine(PlayMusic());
-        // Check which tick we are on
         int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
         
         //Tick
@@ -181,6 +179,7 @@ public class Sequencer : MonoBehaviour
             {
                 isIntro = false;
                 isPlaying = true;
+                
             }
 
             if (isIntro && !gachaing)
@@ -196,8 +195,10 @@ public class Sequencer : MonoBehaviour
         {
             audioSource.clip = BarClip;
             audioSource.Play();
-            if(isPlaying) PlayAction();
-            // if(isIntro) Ring.Instance.ShowIconOnebyOne();
+            if (isPlaying)
+            {
+                PlayAction();
+            }
             gachaing = false;
             
             beatMapUI.SetActionTitle(actionSequence[(introActionIndex-1+actionSequence.Count)%actionSequence.Count].ActionName);
@@ -208,7 +209,7 @@ public class Sequencer : MonoBehaviour
     {
         Image centerImage = Ring.Instance.CenterImage;
         centerImage.enabled = true;
-        while (Sequencer.Instance.audioSource.clip.name == Sequencer.Instance.TickClip.name)
+        while (audioSource.clip.name == TickClip.name)
         {
             centerImage.sprite = actionPool[Random.Range(0, actionPool.Length)].ActionIcon;
             centerImage.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -227,4 +228,5 @@ public class Sequencer : MonoBehaviour
         actionSequencer.PlayCurrentAction();
         actionSequencer.NextAction();
     }
+    
 }

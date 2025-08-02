@@ -16,6 +16,9 @@ public abstract class ActionBase : MonoBehaviour
     public Sprite ActionIcon;
 
     public abstract void HandleAction();
+    
+    public abstract void PreAction();
+    public abstract void PostAction();
   
     public void TriggerAction()
     {

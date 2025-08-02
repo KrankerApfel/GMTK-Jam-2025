@@ -11,6 +11,9 @@ public class ActionResetLevel : ActionBase
         //best option would be to reset state without reloading the scene but lack of time ...
 
     }
+    
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
 
 }
 

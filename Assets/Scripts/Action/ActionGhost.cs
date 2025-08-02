@@ -77,4 +77,7 @@ public class ActionGhost : ActionBase
 
 
     }
+    
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
 }

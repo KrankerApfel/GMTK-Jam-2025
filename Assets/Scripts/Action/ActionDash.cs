@@ -28,6 +28,9 @@ public class ActionDash : ActionBase
         dashCoroutine = StartCoroutine(DashRoutine());
     }
 
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
+
     private IEnumerator DashRoutine()
     {
         float elapsed = 0f;
@@ -49,4 +52,6 @@ public class ActionDash : ActionBase
         OnActionFinished?.Invoke();
         dashCoroutine = null;
     }
+    
+    
 }

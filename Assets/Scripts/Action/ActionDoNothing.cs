@@ -12,6 +12,10 @@ public class ActionDoNothing : ActionBase
         StartCoroutine(Waitforduration());
         OnActionFinished?.Invoke();
     }
+
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
+
     private IEnumerator Waitforduration()
     {
         yield return new WaitForSeconds(duration);

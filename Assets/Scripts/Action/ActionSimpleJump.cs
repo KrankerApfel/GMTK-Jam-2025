@@ -27,4 +27,7 @@ public class ActionSimpleJump : ActionBase
 
         OnActionFinished?.Invoke();
     }
+    
+    public override void PreAction() { return; }
+    public override void PostAction() { return; }
 }

@@ -360,9 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f00f61605ecc34a9281c0d216d73e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7416044190119363827, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
-  ShootingRange: 5
-  BulletSpeed: 20
 --- !u!114 &8071517609372888059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,7 +549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &788874166683037550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -780,8 +777,8 @@ MonoBehaviour:
   ActionName: Jump
   ActionIcon: {fileID: -60743645155883428, guid: 86799297bee0641cc9feeb0603467696, type: 3}
   playerPhysics: {fileID: 8071517609372888059}
-  jumpForce: 25
-  disableMovementDuringJump: 1
+  jumpForce: 30
+  disableMovementDuringJump: 0
 --- !u!1 &5338789500580075199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,6 +1335,56 @@ MonoBehaviour:
   player: {fileID: 2751042177300509844}
   ghostColor: {r: 0, g: 1, b: 1, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &8197279413012515374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7023018232446917743}
+  - component: {fileID: 1261429845041397094}
+  m_Layer: 0
+  m_Name: ActionShoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &7023018232446917743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197279413012515374}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3127591199784380137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1261429845041397094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197279413012515374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bbcb5db17054184b00365a49946cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
+  ActionName: Shoot
+  ActionIcon: {fileID: -8809470994601461542, guid: 66599a378cc9a488cbf4f79055e7e634, type: 3}
+  bulletPrefab: {fileID: 7416044190119363827, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
+  ShootingRange: 5
+  BulletSpeed: 10
 --- !u!1 &8347805617349432065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,6 +1552,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9215233526079963187}
+  - {fileID: 7023018232446917743}
   - {fileID: 812345854893040565}
   - {fileID: 8603109596504621832}
   - {fileID: 1024421165346387745}
