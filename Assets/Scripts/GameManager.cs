@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-
     private void Init()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");

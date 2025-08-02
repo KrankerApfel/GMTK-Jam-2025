@@ -83,6 +83,7 @@ public class Sequencer : MonoBehaviour
     private IEnumerator InitAfterSceneLoad()
     {
         yield return null;
+        StartIntro();
         CreateSequence(actionPool, new ActionBase[0]);
     }
 
