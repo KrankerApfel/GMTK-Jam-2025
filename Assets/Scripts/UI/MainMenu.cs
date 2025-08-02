@@ -66,7 +66,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartGame()
     {
-        LevelManager.Instance.LoadLevel(1); 
+        LevelManager.Instance.FadeToNextLevel(); 
     }
 
     public void OnCredits()

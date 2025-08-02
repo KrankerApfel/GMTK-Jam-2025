@@ -148,7 +148,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1606853971}
   - {fileID: 1031131667}
   - {fileID: 1683280916}
   - {fileID: 817036145}
@@ -879,7 +878,7 @@ Transform:
   m_LocalScale: {x: 2.2099488, y: 3.3709774, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 375689999}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1606853972
 BoxCollider2D:
@@ -968,8 +967,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1981734607
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.96981126, g: 0.87316215, b: 0.0494054, a: 1}
@@ -1096,3 +1095,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 375689999}
   - {fileID: 1234753362973951155}
+  - {fileID: 1606853971}
