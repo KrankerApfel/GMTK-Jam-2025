@@ -170,6 +170,10 @@ MonoBehaviour:
   BPM: 80
   BarCount: 5
   Music: {fileID: 8300000, guid: 6de8b1d71073f1b41bd2caac6945c70d, type: 3}
+  actionNames:
+  - ActionDoubleJump
+  - ActionDash
+  - ActionGhost
 --- !u!1 &817036141
 GameObject:
   m_ObjectHideFlags: 0

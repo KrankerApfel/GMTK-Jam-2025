@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -108,4 +109,19 @@ public class GameManager : MonoBehaviour
             action.Init();
         }
     }
+
+    public void SetFixedSequence(List<string> actionNames)
+    {
+        fixedSequence = actionNames
+            .Select(name => actionPool.LastOrDefault(a => a != null && a.GetType().Name == name))
+            .Where(a => a != null)
+            .ToList();
+
+        var notFound = actionNames.Except(fixedSequence.Select(a => a.GetType().Name)).ToList();
+        if (notFound.Any())
+        {
+            Debug.LogWarning($"Actions non trouvées : {string.Join(", ", notFound)}");
+        }
+    }
+
 }
