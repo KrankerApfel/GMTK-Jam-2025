@@ -41,16 +41,13 @@ public class ActionGhost : ActionBase
             Physics2D.IgnoreLayerCollision(ghostLayer_num, physicalLayer_num, true);
         }
 
-
-
-        spriteRenderer = player.GetComponent<SpriteRenderer>();
-
     }
 
     public override void Init()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerColliderObject = player;
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
     }
 
     public override void HandleAction()
