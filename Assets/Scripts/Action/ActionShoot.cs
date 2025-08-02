@@ -19,10 +19,15 @@ public class ActionShoot : ActionBase
         cross = GetComponentInChildren<TextMeshPro>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
         playerTransform = GameManager.Instance.player.transform;
+        
+        isAiming = false;
+        cross.gameObject.SetActive(false);
+        lineRenderer.gameObject.SetActive(false);
     }
     
     public override void PreAction()
     {
+        print(1);
         isAiming = true;
         cross.gameObject.SetActive(true);
         lineRenderer.gameObject.SetActive(true);

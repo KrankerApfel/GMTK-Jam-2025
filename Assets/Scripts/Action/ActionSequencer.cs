@@ -16,7 +16,7 @@ public class ActionSequencer : MonoBehaviour
     
     public void PlayLastPostAction()
     {
-        currentAction?.PostAction();
+        lastAction?.PostAction();
     }
     
     public void PlayCurrentAction()
@@ -26,7 +26,7 @@ public class ActionSequencer : MonoBehaviour
     
     public void PlayNextPreAction()
     {
-        currentAction?.PreAction();
+        nextAction?.PreAction();
     }
 
     public void SetNewActions(ActionBase[] actions)
@@ -55,15 +55,14 @@ public class ActionSequencer : MonoBehaviour
         {
             lastAction = currentAction;
             actionStack.Enqueue(currentAction);
+            currentAction = actionStack.Dequeue();
+            nextAction = actionStack.Count > 0 ? actionStack.Peek() : null;
         }
         else
-        { //make sure the PreAction of the first action is called
-            lastAction = actionStack.Peek();
-            actionStack.Enqueue(lastAction);
+        {
+            nextAction = actionStack.Peek();
+            currentAction = actionStack.Dequeue();
         }
-        
-        currentAction = actionStack.Dequeue();
-        nextAction = actionStack.Count > 0 ? actionStack.Peek() : null;
     }
 
     private void OnActionStarted()

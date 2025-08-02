@@ -163,11 +163,12 @@ public class Sequencer : MonoBehaviour
                 StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
 
             if (isIntro && introActionIndex == actionSequence.Count)
-            {
+            { //finish intro
                 introActionIndex++;
                 gameStartTime = introStartTime;
                 UIManager.Instance.FinishIntro();
                 StartCoroutine(PlayMusic());
+                // actionSequencer.PlayNextPreAction();
             }
         }
         else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
