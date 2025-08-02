@@ -11,8 +11,8 @@ public class Sequencer : MonoBehaviour
     public static Sequencer Instance { get; private set; }
 
     [SerializeField] private ActionSequencer actionSequencer;
-    [SerializeField] public ActionBase[] actionPool;
-    private List<ActionBase> actionSequence;
+    [HideInInspector] public ActionBase[] actionPool;
+    [HideInInspector] public List<ActionBase> actionSequence;
     private int introActionIndex = 0;
 
     public string BeatMap = "1000";
@@ -222,7 +222,7 @@ public class Sequencer : MonoBehaviour
 
     private IEnumerator Gacha()
     {
-        if (Ring.Instance != null)
+        if (Ring.Instance != null && GameManager.Instance.fixedSequence.Count == 0)
         {
             Image centerImage = Ring.Instance.CenterImage;
             centerImage.enabled = true;

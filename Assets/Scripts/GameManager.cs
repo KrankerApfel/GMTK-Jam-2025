@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Sequences")]
     [SerializeField] private List<ActionBase> actionPool;
-    [SerializeField] private List<ActionBase> fixedSequence;
+    public List<ActionBase> fixedSequence;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         var notFound = actionNames.Except(fixedSequence.Select(a => a.GetType().Name)).ToList();
         if (notFound.Any())
         {
-            Debug.LogWarning($"Actions non trouvées : {string.Join(", ", notFound)}");
+            Debug.LogWarning($"Actions non trouvï¿½es : {string.Join(", ", notFound)}");
         }
     }
 

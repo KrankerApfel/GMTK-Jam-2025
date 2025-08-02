@@ -81,7 +81,8 @@ public class Ring : MonoBehaviour
             slot.transform.localPosition = new Vector3(x, y, 0) * ringRadius;
 
             Image image = slot.GetComponent<Image>();
-            image.sprite = QuestionIcon;
+            if(GameManager.Instance.fixedSequence.Count==0) image.sprite = QuestionIcon;
+            else image.sprite = actions[i].ActionIcon;
             icons.Add(image);
         }
     }
@@ -134,7 +135,7 @@ public class Ring : MonoBehaviour
         foreach (var slot in icons)
             slot.transform.localEulerAngles = -endRotation;
 
-        if (isIntro)
+        if (isIntro && GameManager.Instance.fixedSequence.Count==0)
         {
             CenterImage.enabled = true;
             CenterImage.sprite = actions[currentSlotIndex].ActionIcon;

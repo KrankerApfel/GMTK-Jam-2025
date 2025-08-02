@@ -1202,7 +1202,7 @@ PrefabInstance:
       objectReference: {fileID: 2092290065}
     - target: {fileID: 6611329665729488428, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
       propertyPath: fixedSequence.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6611329665729488428, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
       propertyPath: 'fixedSequence.Array.data[0]'
