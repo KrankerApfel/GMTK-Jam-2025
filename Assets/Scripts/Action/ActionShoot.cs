@@ -27,7 +27,6 @@ public class ActionShoot : ActionBase
     
     public override void PreAction()
     {
-        print(1);
         isAiming = true;
         cross.gameObject.SetActive(true);
         lineRenderer.gameObject.SetActive(true);

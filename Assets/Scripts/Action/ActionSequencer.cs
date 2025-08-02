@@ -64,6 +64,11 @@ public class ActionSequencer : MonoBehaviour
             currentAction = actionStack.Dequeue();
         }
     }
+    
+    public void ResetNextAction()
+    {
+        nextAction = actionStack.Count > 0 ? actionStack.Peek() : null;
+    }
 
     private void OnActionStarted()
     {

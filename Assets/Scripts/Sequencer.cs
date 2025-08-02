@@ -196,7 +196,7 @@ public class Sequencer : MonoBehaviour
                 isIntro = false;
                 isPlaying = true;
                 actionSequencer.PlayNextPreAction();
-                actionSequencer.nextAction = null;
+                actionSequencer.ResetNextAction(); 
             }
 
             if (isIntro && !gachaing)
