@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BeatMap : MonoBehaviour
 {
-    public GameObject TickDot;
+    [SerializeField] private GameObject TickDot;
+    [SerializeField] private GameObject BarDot;
 
-    public GameObject BarDot;
-    
-    public List<Image> dots;
+    private TextMeshProUGUI actionTitle;
+    private List<Image> dots = new List<Image>();
 
     private int currentDot = -1;
     private int lastDot = -1;
@@ -24,7 +25,7 @@ public class BeatMap : MonoBehaviour
             
             dots.Add(dot.GetComponent<Image>());
         }
-        
+        actionTitle = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void Advance()
@@ -40,5 +41,10 @@ public class BeatMap : MonoBehaviour
         {
             dots[lastDot].color = Color.white;
         }
+    }
+    
+    public void SetActionTitle(string title)
+    {
+        actionTitle.text = title;
     }
 }

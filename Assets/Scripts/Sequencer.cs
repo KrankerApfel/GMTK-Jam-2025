@@ -199,6 +199,8 @@ public class Sequencer : MonoBehaviour
             if(isPlaying) PlayAction();
             // if(isIntro) Ring.Instance.ShowIconOnebyOne();
             gachaing = false;
+            
+            beatMapUI.SetActionTitle(actionSequence[(introActionIndex-1+actionSequence.Count)%actionSequence.Count].ActionName);
         }
     }
     
