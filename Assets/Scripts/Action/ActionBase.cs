@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class ActionBase : MonoBehaviour
 {
@@ -16,7 +14,13 @@ public abstract class ActionBase : MonoBehaviour
     public Sprite ActionIcon;
 
     public abstract void HandleAction();
-  
+
+    public virtual void Init() { }
+
+    private void Start()
+    {
+        Init();
+    }
     public void TriggerAction()
     {
         OnActionStarted?.Invoke();

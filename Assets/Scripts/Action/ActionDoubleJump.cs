@@ -11,11 +11,16 @@ public class ActionDoubleJump : ActionBase
 
     [SerializeField]
     private float jumpForce = 25f;
-    
+
     private float jumpInterval = 0.3f;
 
     [SerializeField] private bool disableMovementDuringJump = true;
 
+    public override void Init()
+    {
+        playerPhysics = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPhysics>();
+        rigidBody = playerPhysics.gameObject.GetComponent<Rigidbody2D>();
+    }
 
     public IEnumerator doubleJump()
     {
@@ -39,7 +44,6 @@ public class ActionDoubleJump : ActionBase
 
 
     }
-
 
     public override void HandleAction()
     {

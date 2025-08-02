@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,7 +31,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
     private void Start()
     {
@@ -61,10 +66,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   
+
     public void OnLevelFinished()
     {
-        Debug.Log("Level finished !");
         Sequencer.Instance.Stop();
 
         if (audioSource && winAudio)
@@ -85,5 +89,22 @@ public class GameManager : MonoBehaviour
 
         if (LevelManager.Instance != null)
             LevelManager.Instance.FadeToNextLevel();
+    }
+
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        player = playerObj.GetComponent<PlayerPhysics>();
+        actionSequencer = playerObj.GetComponent<ActionSequencer>();
+
+        foreach (ActionBase action in actionPool)
+        {
+            action.Init();
+        }
+        foreach (ActionBase action in fixedSequence)
+        {
+            action.Init();
+        }
     }
 }
