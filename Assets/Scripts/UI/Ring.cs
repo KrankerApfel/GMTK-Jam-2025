@@ -1,26 +1,22 @@
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class Ring : MonoBehaviour
 {
     public static Ring Instance { get; private set; }
 
     private ActionBase[] actions;
-    // private List<GameObject> slots;
     private int currentSlotIndex = 0;
     private int startAngle = 135;
-    private float ringRaduis = 5f - 5f * 0.1f / 2;
+    private float ringRadius = 5f - 5f * 0.1f / 2;
 
     [SerializeField] public Animator animator;
-
     [SerializeField] public GameObject SlotPrefab;
     [SerializeField] public Sprite QuestionIcon;
-    [HideInInspector] public List<Image> icons;
+    [HideInInspector] public List<Image> icons = new List<Image>();
     public Image CenterImage;
 
     private Vector3 gamePos;
@@ -29,28 +25,27 @@ public class Ring : MonoBehaviour
     private Vector3 introScale;
     public float zoomScale = 4f;
 
-
     private void Awake()
     {
-        if (Instance == null) 
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
-        else
+        else if (Instance != this)
         {
-            Debug.Log("Awake call destroy ! parent :  " + gameObject.transform.parent.name);
-            Debug.Log("of " + gameObject.name);
             Destroy(gameObject);
             return;
         }
 
-        //clean children
-        // slots = new List<GameObject>();
+        InitPositions();
+    }
+
+    private void InitPositions()
+    {
         foreach (Transform child in animator.transform)
-        {
             Destroy(child.gameObject);
-        }
 
         gamePos = transform.position;
         gameScale = transform.localScale;
@@ -61,45 +56,38 @@ public class Ring : MonoBehaviour
         transform.localScale = introScale;
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Ne vide plus les slots ici → le Sequencer gère ça
+    }
+
     public void AddSlots(ActionBase[] actionSequence)
     {
-        actions = actionSequence;
+        ResetSlots();
 
+        actions = actionSequence;
         currentSlotIndex = actions.Length - 1;
 
-        // create slots
         for (int i = 0; i < actions.Length; i++)
         {
             GameObject slot = Instantiate(SlotPrefab, animator.transform);
             slot.name = "Slot " + i;
+            slot.transform.localScale = (i == currentSlotIndex) ? Vector3.one * 3 : Vector3.one * 2;
 
-            if (i == currentSlotIndex)
-            {
-                slot.transform.localScale = Vector3.one * 3;
-            }
-            else
-            {
-                slot.transform.localScale = Vector3.one * 2;
-            }
-
-            // put slots equally spaced in a circle
             float angle = -(i + 1) * (360f / actions.Length) + startAngle;
             float radians = angle * Mathf.Deg2Rad;
             float x = Mathf.Cos(radians);
             float y = Mathf.Sin(radians);
-            slot.transform.localPosition = new Vector3(x, y, 0) * ringRaduis;
+            slot.transform.localPosition = new Vector3(x, y, 0) * ringRadius;
 
             Image image = slot.GetComponent<Image>();
             image.sprite = QuestionIcon;
             icons.Add(image);
-
-            // slots.Add(slot);
         }
     }
 
     public IEnumerator PlayAnimation(string animationName)
     {
-
         if (animator != null)
         {
             animator.speed = Sequencer.Instance.BPM / 60f;
@@ -110,8 +98,13 @@ public class Ring : MonoBehaviour
 
     public IEnumerator Rotate()
     {
+        if (icons == null || icons.Count == 0 || actions == null || actions.Length == 0)
+        {
+            Debug.LogWarning("Rotate() appelé mais aucun slot n'est défini.");
+            yield break;
+        }
+
         bool isIntro = Sequencer.Instance.isIntro;
-        // Rotate the ring to 360f / SlotCount degrees in tickInterval *0.1
         float angle = 360f / icons.Count;
         float duration = Sequencer.Instance.tickInterval / 6f;
         float elapsed = 0f;
@@ -123,27 +116,24 @@ public class Ring : MonoBehaviour
         {
             transform.localEulerAngles = Vector3.Lerp(startRotation, endRotation, elapsed / duration);
             foreach (var slot in icons)
-                slot.transform.transform.localEulerAngles = -Vector3.Lerp(startRotation, endRotation, elapsed / duration);
+                slot.transform.localEulerAngles = -Vector3.Lerp(startRotation, endRotation, elapsed / duration);
             if (isIntro) CenterImage.transform.rotation = Quaternion.Euler(0, 0, 0);
 
             elapsed += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
 
         icons[currentSlotIndex].transform.localScale = Vector3.one * 2;
-
         currentSlotIndex = (currentSlotIndex + 1 + icons.Count) % icons.Count;
-
         icons[currentSlotIndex].transform.localScale = Vector3.one * 3;
-        //add border
-        // icons[currentSlotIndex]
 
         if (icons[currentSlotIndex].sprite == QuestionIcon)
             icons[currentSlotIndex].sprite = actions[currentSlotIndex].ActionIcon;
 
         transform.localEulerAngles = endRotation;
         foreach (var slot in icons)
-            slot.transform.transform.localEulerAngles = -endRotation;
+            slot.transform.localEulerAngles = -endRotation;
+
         if (isIntro)
         {
             CenterImage.enabled = true;
@@ -164,13 +154,11 @@ public class Ring : MonoBehaviour
             transform.localScale = Vector3.Lerp(introScale, gameScale, elapsed / duration);
 
             elapsed += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
 
         transform.position = gamePos;
         transform.localScale = gameScale;
-
-        // currentSlotIndex = 0;
     }
 
     public IEnumerator GameToIntroPos()
@@ -184,13 +172,28 @@ public class Ring : MonoBehaviour
             transform.localScale = Vector3.Lerp(gameScale, introScale, elapsed / duration);
 
             elapsed += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
     }
 
-    // public IEnumerator ShowIconOnebyOne()
-    // { 
-    //     icons[currentSlotIndex].sprite = actions[currentSlotIndex].ActionIcon;
-    //     yield return null;
-    // }
+    public void ResetSlots()
+    {
+        foreach (Transform child in animator.transform)
+            Destroy(child.gameObject);
+
+        icons.Clear();
+        actions = null;
+        currentSlotIndex = 0;
+
+        transform.position = introPos;
+        transform.localScale = introScale;
+        transform.localEulerAngles = Vector3.zero;
+
+        if (CenterImage != null)
+        {
+            CenterImage.enabled = false;
+            CenterImage.sprite = QuestionIcon;
+            CenterImage.transform.rotation = Quaternion.identity;
+        }
+    }
 }

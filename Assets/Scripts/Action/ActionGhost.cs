@@ -20,6 +20,7 @@ public class ActionGhost : ActionBase
 
     void Awake()
     {
+        Init();
         if (player == null)
         {
             Debug.LogError("Player not assigned.");
