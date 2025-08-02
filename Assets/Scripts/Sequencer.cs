@@ -39,6 +39,8 @@ public class Sequencer : MonoBehaviour
     [HideInInspector] public bool isPlaying = false;
     [HideInInspector] public bool isIntro = false;
     private bool gachaing = false;
+    
+    private bool loaded = false;
 
     private void Awake()
     {
@@ -73,11 +75,12 @@ public class Sequencer : MonoBehaviour
         musicSource.loop = true;
 
         UIManager.Instance.ShowLoadingScreen();
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(InitAfterSceneLoad());
+        if (loaded) StartCoroutine(InitAfterSceneLoad());
     }
 
     private IEnumerator InitAfterSceneLoad()
@@ -92,6 +95,7 @@ public class Sequencer : MonoBehaviour
         introStartTime = Time.time;
         isIntro = true;
         introActionIndex = 0;
+        loaded = true;
     }
 
     public void SetMusic(AudioClip clip) 
