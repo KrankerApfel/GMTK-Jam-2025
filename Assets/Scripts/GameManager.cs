@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,10 +15,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        // ActionBase[] selectedActions = actionPool.GetRange(0,3).ToArray();
-        // actionSequencer.SetNewActions(selectedActions);
         Sequencer.Instance.CreateSequence(actionPool.ToArray(), fixedSequence.ToArray());
-
         player.OnPlayerDestroyed += OnPlayerDestroyed;
     }
 
