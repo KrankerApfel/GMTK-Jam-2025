@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,14 +44,25 @@ public class GameManager : MonoBehaviour
         player = playerObj.GetComponent<PlayerPhysics>();
         actionSequencer = playerObj.GetComponent<ActionSequencer>();
 
+        if (player != null)
+        {
+            player.OnPlayerDestroyed += OnPlayerDestroyed;
+        }
+
+        Debug.Log("Init");
+
         if (actionSequencer != null && actionPool != null && fixedSequence != null)
         {
             Sequencer.Instance.CreateSequence(actionPool.ToArray(), fixedSequence.ToArray());
         }
 
-        if (player != null)
+        foreach (ActionBase action in actionPool)
         {
-            player.OnPlayerDestroyed += OnPlayerDestroyed;
+            action.Init();
+        }
+        foreach (ActionBase action in fixedSequence)
+        {
+            action.Init();
         }
     }
 
@@ -98,20 +110,19 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        Init();
+        StartCoroutine(WaitBeforeInit());
+    }
 
-        foreach (ActionBase action in actionPool)
-        {
-            action.Init();
-        }
-        foreach (ActionBase action in fixedSequence)
-        {
-            action.Init();
-        }
+    private IEnumerator WaitBeforeInit()
+    {
+        yield return new WaitForEndOfFrame();
+        Init();
     }
 
     public void SetFixedSequence(List<string> actionNames)
     {
+        Debug.Log("SetFixedSequence");
+
         fixedSequence = actionNames
             .Select(name => actionPool.LastOrDefault(a => a != null && a.GetType().Name == name))
             .Where(a => a != null)
@@ -122,6 +133,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning($"Actions non trouv�es : {string.Join(", ", notFound)}");
         }
+
     }
 
 }
