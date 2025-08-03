@@ -339,6 +339,17 @@ MonoBehaviour:
   - {fileID: 5313655099366809084, guid: 0c15c960c3b7846bdac798b238d2d51d, type: 3}
   jumpFrames:
   - {fileID: -453560716077415185, guid: fc77cfa28dc334190a43b84d81e4f359, type: 3}
+  - {fileID: -7085557807931259309, guid: 7f9f7ea12b392c640877768ae0d893c3, type: 3}
+  - {fileID: -6056966746407190642, guid: 68d35e3f5d4850b44ae10aeb1c1fcd2b, type: 3}
+  - {fileID: -1583489204701997082, guid: da201b518d84f5f4483360d0950b106d, type: 3}
+  - {fileID: 3097132442276498410, guid: 0e9c4e53e91f88641a49d03c8317c307, type: 3}
+  - {fileID: -7265113334235404305, guid: df490035253524649a20338f582e6a48, type: 3}
+  - {fileID: 1335443283199997212, guid: 99aa92e9ed5942e47a7d75646ea45914, type: 3}
+  - {fileID: -4466037889993687589, guid: f5a4d43448bbe034ba1f02244b331bd7, type: 3}
+  - {fileID: 4094764425783419537, guid: 93ba32aacd176404a923d2ddc54d3693, type: 3}
+  - {fileID: 2727886707395339132, guid: 8a2e09db86887aa4ea0bf33e381ea06b, type: 3}
+  - {fileID: -5275725559194569918, guid: af56745edfbea2140840c6371212a9f4, type: 3}
+  - {fileID: 3688259153653799569, guid: e43dd4628aeaf0240ba33d82770de2bf, type: 3}
   idleFrameRate: 0.1
   runFrameRate: 0.04
   jumpFrameRate: 0

@@ -36,8 +36,6 @@ public class PlayerPhysics : MonoBehaviour
         contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(groundLayer);
         contactFilter.useLayerMask = true;
-        
-        GetComponent<Collider2D>().enabled = false;
     }
 
 
