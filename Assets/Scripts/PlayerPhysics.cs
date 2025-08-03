@@ -78,6 +78,7 @@ public class PlayerPhysics : MonoBehaviour
     }
     private void CheckGround() 
     {
+        if(foots == null) Destroy(gameObject);
         int contactCount = foots.GetContacts(contactFilter, contacts);
         isGrounded = contactCount > 0;
         //isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);

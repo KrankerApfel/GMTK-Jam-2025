@@ -7,7 +7,7 @@ public class ActionGhost : ActionBase
     [SerializeField]
     public GameObject playerColliderObject;     
     [SerializeField]
-    public GameObject player;
+    private PlayerPhysics player;
 
     private Collision2D foot; 
 
@@ -22,14 +22,6 @@ public class ActionGhost : ActionBase
 
     void Awake()
     {
-        Init();
-        if (player == null)
-        {
-            Debug.LogError("Player not assigned.");
-            return;
-        }
-
-
         // list of layers whith disable collisions 
         physicalLayers_num = new List<int>();
         physicalLayers_num.Add(LayerMask.NameToLayer("Enemy"));
@@ -47,7 +39,7 @@ public class ActionGhost : ActionBase
 
     public override void Init()
     {
-        player = GameManager.Instance.player.gameObject;
+        player = GameManager.Instance.player;
         playerColliderObject = player.GetComponentInChildren<BoxCollider2D>().gameObject;
         spriteRenderer = player.GetComponent<SpriteRenderer>();
         

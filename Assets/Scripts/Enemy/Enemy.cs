@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.transform.parent.name == "Player")
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Player")
         {
             // send a raycast to player, ignore the enemy itself
             Vector2 castOrigin = transform.position;
@@ -30,9 +30,8 @@ public class Enemy : MonoBehaviour
             bool hitPlayer = true;
             foreach (var hit in hits)
             {
-                if (hit.collider.gameObject.name != "Player" 
-                    && hit.collider.gameObject.name != "Foots"
-                    && hit.collider.gameObject.name != "Enemy")
+                if (LayerMask.LayerToName(hit.transform.gameObject.layer) != "Player"
+                    && LayerMask.LayerToName(hit.transform.gameObject.layer) != "Enemy")
                 {
                     hitPlayer = false;  
                     chasing = false;
@@ -52,7 +51,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.transform.parent.name == "Player")
+        if (LayerMask.LayerToName(other.transform.gameObject.layer) == "Player")
         {
             chasing = false;
             HandleMovement(0f); // stop moving when player exits trigger
@@ -68,7 +67,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.name == "Player")
+        if (LayerMask.LayerToName(other.transform.gameObject.layer) == "Player")
         {
             Destroy(other.transform.gameObject);
         }

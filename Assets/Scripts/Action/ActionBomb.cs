@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-public class ActionShoot : ActionBase
+public class ActionBomb : ActionBase
 {
     private Vector3 mousePosition;
     private TextMeshPro cross;
     private LineRenderer lineRenderer;
     private bool isAiming = false;
+    private GameObject bomb;
 
     private Transform playerTransform;
     [SerializeField] private GameObject bulletPrefab;
@@ -49,15 +50,20 @@ public class ActionShoot : ActionBase
     public override void HandleAction()
     {
         Vector3 direction = (cross.transform.position - playerTransform.position).normalized;
-        GameObject bullet = Instantiate(bulletPrefab, playerTransform.position, Quaternion.identity);
-        bullet.layer = LayerMask.NameToLayer("Default");
-        bullet.transform.up = direction; // Set the bullet's rotation to face the aim direction
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * BulletSpeed;
+        bomb = Instantiate(bulletPrefab, playerTransform.position, Quaternion.identity);
+        bomb.layer = LayerMask.NameToLayer("Default");
+        bomb.GetComponent<Bullet>().exploding = false;
+        bomb.transform.up = direction; // Set the bullet's rotation to face the aim direction
+        bomb.GetComponent<Rigidbody2D>().linearVelocity = direction * BulletSpeed;
         
         isAiming = false;
         cross.gameObject.SetActive(false);
         lineRenderer.gameObject.SetActive(false);
     }
-    
-    public override void PostAction() { return; }
+
+    public override void PostAction()
+    {
+        if(bomb != null)
+            StartCoroutine(bomb.GetComponent<Bullet>().Explode());
+    }
 }
