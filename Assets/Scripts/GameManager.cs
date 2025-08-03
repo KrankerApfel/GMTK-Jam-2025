@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
+        //search for LevelSette component in the scene
+        LevelSetter levelSetter = FindObjectOfType<LevelSetter>();
+        levelSetter?.Start();
+        
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         player = playerObj.GetComponent<PlayerPhysics>();

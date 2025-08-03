@@ -13,7 +13,7 @@ public class LevelSetter : MonoBehaviour
     [SerializeField] private List<String> actionNames;
     [SerializeField] private string loadingMessage;
 
-    private void Start()
+    public void Start()
     {
         // if (UIManager.Instance == null) SceneManager.LoadScene(0);
         
@@ -27,7 +27,7 @@ public class LevelSetter : MonoBehaviour
 
         if (loadingMessage.Length > 0)
         {
-            UIManager.Instance.Loading.GetComponent<LoadingScreen>().GetComponent<TextMeshProUGUI>().text = loadingMessage;
+            UIManager.Instance.Loading.GetComponentInChildren<TextMeshProUGUI>().text = loadingMessage;
         }
     }
 }

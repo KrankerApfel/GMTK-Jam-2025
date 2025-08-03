@@ -171,9 +171,9 @@ MonoBehaviour:
   BarCount: 2
   Music: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
   actionNames:
-  - ActionJump
+  - ActionSimpleJump
   - ActionDash
-  loadingMessage: 'Move: Left/RIght, Jump: Space. Special actions arrive on beat.'
+  loadingMessage: 'Move: Left/RIght, Jump: Space. \nSpecial actions arrive on beat.'
 --- !u!1001 &501357209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,7 +232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
       propertyPath: BeatMap
-      value: 1000
+      value: 0001
       objectReference: {fileID: 0}
     - target: {fileID: 7175257237733703380, guid: 220fdebc13daf418595f2ad12d818ac6, type: 3}
       propertyPath: BarCount
@@ -688,6 +688,14 @@ PrefabInstance:
       propertyPath: playerPhysics
       value: 
       objectReference: {fileID: 1234753362973951156}
+    - target: {fileID: 979647087841683804, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
+      propertyPath: speed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036425723196845759, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
+      propertyPath: jumpForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1036425723196845759, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
       propertyPath: playerPhysics
       value: 
@@ -753,6 +761,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1234753362973951158}
     - target: {fileID: 8716826698594288001, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
+      propertyPath: dashSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8716826698594288001, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
       propertyPath: playerPhysics
       value: 
       objectReference: {fileID: 1234753362973951156}
@@ -800,7 +812,7 @@ Transform:
   m_GameObject: {fileID: 1248451720}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.7066, y: 0.3192284, z: 0}
+  m_LocalPosition: {x: 26, y: -3, z: 0}
   m_LocalScale: {x: 8.372005, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -934,7 +946,7 @@ Transform:
   m_GameObject: {fileID: 1424959611}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26.6, y: -2.8, z: 0}
+  m_LocalPosition: {x: 44, y: -2.8, z: 0}
   m_LocalScale: {x: 11.728426, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1203,7 +1215,7 @@ Transform:
   m_GameObject: {fileID: 1606853970}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26.557201, y: -0.6069, z: 0}
+  m_LocalPosition: {x: 43.9572, y: -0.6069, z: 0}
   m_LocalScale: {x: 2.2099488, y: 3.3709774, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

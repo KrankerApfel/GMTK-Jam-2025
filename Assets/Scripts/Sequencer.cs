@@ -55,11 +55,6 @@ public class Sequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        SlotCount = 0;
-        foreach (var c in BeatMap)
-            if (c == '1') SlotCount++;
-        SlotCount *= BarCount;
     }
 
     private void Start()
@@ -105,6 +100,11 @@ public class Sequencer : MonoBehaviour
     }
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
+        SlotCount = 0;
+        foreach (var c in BeatMap)
+            if (c == '1') SlotCount++;
+        SlotCount *= BarCount;
+        
         Ring.Instance.ResetSlots();
         actionSequencer = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionSequencer>();
 
