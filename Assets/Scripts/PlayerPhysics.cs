@@ -13,8 +13,6 @@ public class PlayerPhysics : MonoBehaviour
     [SerializeField]
     private BoxCollider2D foots;
     [SerializeField]
-    private float collisionRadius = 0.2f;
-    [SerializeField]
     private LayerMask groundLayer;
 
     public Vector2 Velocity => rigidBody.linearVelocity;
@@ -38,8 +36,6 @@ public class PlayerPhysics : MonoBehaviour
         contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(groundLayer);
         contactFilter.useLayerMask = true;
-        
-        GetComponent<Collider2D>().enabled = false;
     }
 
 
