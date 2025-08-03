@@ -170,6 +170,9 @@ MonoBehaviour:
   BPM: 180
   BarCount: 4
   Music: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
+  actionNames:
+  - ActionGhost
+  - ActionDash
 --- !u!1 &817036141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,10 +1104,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8841242135860341563, guid: 518217ea93b9945b49b4205ed9111964, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 518217ea93b9945b49b4205ed9111964, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

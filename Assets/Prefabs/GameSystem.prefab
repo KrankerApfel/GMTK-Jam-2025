@@ -352,7 +352,7 @@ MonoBehaviour:
   - {fileID: 3688259153653799569, guid: e43dd4628aeaf0240ba33d82770de2bf, type: 3}
   idleFrameRate: 0.1
   runFrameRate: 0.04
-  jumpFrameRate: 0
+  jumpFrameRate: 0.04
 --- !u!1 &3648635557238354662
 GameObject:
   m_ObjectHideFlags: 0
