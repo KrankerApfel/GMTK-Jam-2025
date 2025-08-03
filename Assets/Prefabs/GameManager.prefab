@@ -1103,11 +1103,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3096f51cabc733944b985754c079253a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.8
+  duration: 0.1
   ActionName: Dash
   ActionIcon: {fileID: -6072538630434162108, guid: c21fca7ed807046029d7dadf2878245c, type: 3}
   playerPhysics: {fileID: 0}
-  dashSpeed: 20
+  dashSpeed: 40
   direction: {x: 1, y: 0}
   dashCurve:
     serializedVersion: 2

@@ -82,7 +82,6 @@ public class Sequencer : MonoBehaviour
     {
         yield return null;
         StartIntro();
-        // CreateSequence(actionPool, new ActionBase[0]);
     }
 
     public void StartIntro()
