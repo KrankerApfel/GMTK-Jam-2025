@@ -68,6 +68,11 @@ public class MainMenu : MonoBehaviour
     {
         LevelManager.Instance.FadeToNextLevel(); 
     }
+    
+    public void OnSkipLevel()
+    {
+        LevelManager.Instance.FadeToSkipLevel();
+    }
 
     public void OnCredits()
     {

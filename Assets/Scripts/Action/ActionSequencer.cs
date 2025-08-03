@@ -21,7 +21,9 @@ public class ActionSequencer : MonoBehaviour
     
     public void PlayCurrentAction()
     {
+        // if (lastAction != null) lastAction.enabled = false;
         currentAction?.TriggerAction();
+        // if (nextAction != null) nextAction.enabled = true;
     }
     
     public void PlayNextPreAction()

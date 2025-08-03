@@ -2,22 +2,27 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-public class ActionPushAir : ActionBase
+public class ActionBomb : ActionBase
 {
     private Vector3 mousePosition;
     private TextMeshPro cross;
     private LineRenderer lineRenderer;
     private bool isAiming = false;
+    private GameObject bomb;
 
     private Transform playerTransform;
+    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float ShootingRange = 5f;
-    [SerializeField] private float speed;
+    [SerializeField] private float BulletSpeed = 10f;
 
+    public override void Init()
+    {
+        playerTransform = GameManager.Instance.player.transform;
+    }
     private void Start()
     {
         cross = GetComponentInChildren<TextMeshPro>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
-        playerTransform = GameManager.Instance.player.transform;
         
         isAiming = false;
         cross.gameObject.SetActive(false);
@@ -33,8 +38,18 @@ public class ActionPushAir : ActionBase
 
     private void FixedUpdate()
     {
+        if (!Sequencer.Instance.isPlaying)
+        {
+            isAiming = false;
+            lineRenderer.gameObject.SetActive(false);
+            cross.gameObject.SetActive(false);
+            return;
+        }
+        
         if (isAiming)
         {
+            // playerTransform = GameManager.Instance.player.transform;
+            
             Vector3 mouse3D = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition = new Vector3(mouse3D.x, mouse3D.y, 0f);
             cross.transform.position = playerTransform.position + (mousePosition - playerTransform.position).normalized * ShootingRange;
@@ -47,36 +62,21 @@ public class ActionPushAir : ActionBase
 
     public override void HandleAction()
     {
+        Vector3 direction = (cross.transform.position - playerTransform.position).normalized;
+        bomb = Instantiate(bulletPrefab, playerTransform.position, Quaternion.identity);
+        bomb.layer = LayerMask.NameToLayer("Default");
+        bomb.GetComponent<Bomb>().exploding = false;
+        bomb.transform.up = direction; // Set the bullet's rotation to face the aim direction
+        bomb.GetComponent<Rigidbody2D>().linearVelocity = direction * BulletSpeed;
+        
         isAiming = false;
         cross.gameObject.SetActive(false);
         lineRenderer.gameObject.SetActive(false);
-        
-        StartCoroutine(PushAir());
     }
 
-    private IEnumerator PushAir()
+    public override void PostAction()
     {
-        float duration = 0.1f;
-        float elapsedTime = 0f;
-        
-        
-        Vector3 direction = (cross.transform.position - playerTransform.position).normalized;
-        PlayerPhysics playerPhysics = playerTransform.GetComponent<PlayerPhysics>();
-        Rigidbody2D rigidBody = playerTransform.GetComponent<Rigidbody2D>();
-        
-        playerPhysics.DisableMovement(true);
-        rigidBody.linearVelocity = - direction * speed;
-        
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        
-        // rigidBody.linearVelocity = Vector2.zero;
-        playerPhysics.DisableMovement(false);
+        if(bomb != null)
+            StartCoroutine(bomb.GetComponent<Bomb>().Explode());
     }
-    
-    
-    public override void PostAction() { return; }
 }

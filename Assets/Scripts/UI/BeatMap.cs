@@ -16,6 +16,19 @@ public class BeatMap : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        BuildMap();
+        actionTitle = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void BuildMap()
+    {
+        dots.Clear();
+        foreach (Image image in GetComponentsInChildren<Image>())
+        {
+            if(image.gameObject != gameObject)
+                Destroy(image.gameObject);
+        }
+            
         string map = Sequencer.Instance.BeatMap;
         for(int i = 0; i < map.Length; i++)
         {
@@ -25,7 +38,6 @@ public class BeatMap : MonoBehaviour
             
             dots.Add(dot.GetComponent<Image>());
         }
-        actionTitle = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void Advance()
@@ -46,5 +58,14 @@ public class BeatMap : MonoBehaviour
     public void SetActionTitle(string title)
     {
         actionTitle.text = title;
+    }
+
+    public void Reset()
+    {
+        BuildMap();
+        
+        currentDot = -1;
+        lastDot = -1;
+        actionTitle.text = "";
     }
 }

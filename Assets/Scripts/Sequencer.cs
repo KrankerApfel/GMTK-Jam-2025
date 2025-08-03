@@ -15,7 +15,7 @@ public class Sequencer : MonoBehaviour
     [HideInInspector] public List<ActionBase> actionSequence;
     private int introActionIndex = 0;
 
-    public string BeatMap = "1000";
+    public string BeatMap;
     private BeatMap beatMapUI;
     public int BPM = 60;
     public int BarCount = 6;
@@ -25,7 +25,7 @@ public class Sequencer : MonoBehaviour
     [HideInInspector] public float tickInterval;
     private float latency;
     private float tickStamp;
-    private float introStartTime, gameStartTime, elapsedTime;
+    private float gameStartTime, elapsedTime;
     [SerializeField] private float gachaInterval = 10f;
 
     [HideInInspector] public AudioSource audioSource;
@@ -62,7 +62,6 @@ public class Sequencer : MonoBehaviour
         // tickInterval = 60f / BPM;
         // latency = tickInterval / 6f;
         audioSource = GetComponent<AudioSource>();
-        ticksPerBar = BeatMap.Length;
         beatMapUI = UIManager.Instance.BeatMap.GetComponent<BeatMap>();
 
         musicSource = transform.GetChild(0).GetComponent<AudioSource>();
@@ -70,7 +69,6 @@ public class Sequencer : MonoBehaviour
         musicSource.loop = true;
 
         UIManager.Instance.ShowLoadingScreen();
-        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -80,13 +78,20 @@ public class Sequencer : MonoBehaviour
 
     private IEnumerator InitAfterSceneLoad()
     {
+        isPlaying = false;
+        isIntro = false;
         yield return null;
-        StartIntro();
+        UIManager.Instance.ShowLoadingScreen();
+        // StartIntro();
     }
 
     public void StartIntro()
     {
-        introStartTime = Time.time;
+        UIManager.Instance.BeatMap.SetActive(true);
+        UIManager.Instance.BeatMap.GetComponent<BeatMap>().Reset();
+        // UIManager.Instance.Ring.
+        
+        gameStartTime = Time.time;
         isIntro = true;
         introActionIndex = 0;
         loaded = true;
@@ -106,6 +111,7 @@ public class Sequencer : MonoBehaviour
         
         tickInterval = 60f / BPM;
         latency = tickInterval / 6f;
+        ticksPerBar = BeatMap.Length;
         
         Ring.Instance.ResetSlots();
         actionSequencer = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionSequencer>();
@@ -144,12 +150,16 @@ public class Sequencer : MonoBehaviour
         if (!isPlaying && !isIntro)
             return;
 
-        elapsedTime = Time.time - Math.Max(gameStartTime, introStartTime);
+        elapsedTime = Time.time - gameStartTime;
 
         if (elapsedTime % tickInterval < Time.fixedDeltaTime)
         {
             TickAnimation();
             tickStamp = elapsedTime + latency;
+            
+            //correct time 
+            float offset = elapsedTime % tickInterval;
+            gameStartTime -= offset;
         }
         else if (elapsedTime > tickStamp && elapsedTime - tickStamp < Time.fixedDeltaTime)
         {
@@ -159,7 +169,7 @@ public class Sequencer : MonoBehaviour
 
     private void TickAnimation()
     {
-        int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
+        int tickIndex = (int)((Time.time - gameStartTime) / tickInterval);
 
         if (BeatMap[tickIndex % ticksPerBar] == '0')
         {
@@ -171,7 +181,6 @@ public class Sequencer : MonoBehaviour
             if (isIntro && introActionIndex == actionSequence.Count)
             { //finish intro
                 introActionIndex++;
-                gameStartTime = introStartTime;
                 UIManager.Instance.FinishIntro();
                 StartCoroutine(PlayMusic());
             }
@@ -186,7 +195,7 @@ public class Sequencer : MonoBehaviour
 
     private void TickSound()
     {
-        int tickIndex = (int)((Time.time - Math.Max(gameStartTime, introStartTime)) / tickInterval);
+        int tickIndex = (int)((Time.time - gameStartTime) / tickInterval);
 
         if (isIntro) beatMapUI.Advance();
 
@@ -244,7 +253,7 @@ public class Sequencer : MonoBehaviour
     }
     private IEnumerator StopMusic()
     {
-        yield return new WaitForSeconds(MusicOffset);
+        yield return null;
         musicSource.Stop();
     }
 

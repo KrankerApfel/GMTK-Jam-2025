@@ -502,7 +502,7 @@ MonoBehaviour:
   ActionName: Push Air
   ActionIcon: {fileID: 435764861381708884, guid: caa75c1e075ba43fc891bbd15234b1d1, type: 3}
   ShootingRange: 3
-  speed: 20
+  speed: 30
 --- !u!1 &3415868565733006442
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   ActionName: Dash
-  ActionIcon: {fileID: -6072538630434162108, guid: c21fca7ed807046029d7dadf2878245c, type: 3}
+  ActionIcon: {fileID: 7712889252448647843, guid: d7a32fbb1955044fd8756262bca3b1ff, type: 3}
   playerPhysics: {fileID: 0}
   dashSpeed: 40
   direction: {x: 1, y: 0}
@@ -1693,8 +1693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 5
   ActionName: Ghost
-  ActionIcon: {fileID: 4448715427215634006, guid: af63b5703441a4e2383e5767b3ca8488, type: 3}
-  playerColliderObject: {fileID: 0}
+  ActionIcon: {fileID: 8124536228571830565, guid: 893b072c245bc43fc96b9621d6cc6196, type: 3}
   player: {fileID: 0}
   ghostColor: {r: 0, g: 1, b: 1, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1750,7 +1749,7 @@ MonoBehaviour:
   ActionIcon: {fileID: -1483665779731714255, guid: 80a75bcfce5a042d0b26ac43512c6454, type: 3}
   bulletPrefab: {fileID: 6392896329708703208, guid: 67edd886947f24d7b97f8fe33bed9759, type: 3}
   ShootingRange: 5
-  BulletSpeed: 10
+  BulletSpeed: 20
 --- !u!1 &8287168592719516021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,9 +1796,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 1
   ActionName: Jump
-  ActionIcon: {fileID: -60743645155883428, guid: 86799297bee0641cc9feeb0603467696, type: 3}
+  ActionIcon: {fileID: 7460046300004610927, guid: 9fc8f6c87b63b4753a87b58997a146b5, type: 3}
   playerPhysics: {fileID: 0}
-  jumpForce: 25
+  jumpForce: 30
   disableMovementDuringJump: 1
 --- !u!1 &8392454623572542086
 GameObject:

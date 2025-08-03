@@ -29,32 +29,51 @@ public class ActionDash : ActionBase
             StopCoroutine(dashCoroutine);
 
         playerPhysics.DisableMovement(true);
-        dashCoroutine = StartCoroutine(DashRoutine());
+        dashCoroutine = StartCoroutine(PushAir());
     }
 
     public override void PreAction() { return; }
     public override void PostAction() { return; }
 
-    private IEnumerator DashRoutine()
+    // private IEnumerator DashRoutine()
+    // {
+    //     float elapsed = 0f;
+    //
+    //     while (elapsed < duration)
+    //     {
+    //         float t = elapsed / duration;
+    //         float speedFactor = dashCurve.Evaluate(t);
+    //         Vector2 velocity = direction.normalized * dashSpeed * speedFactor;
+    //
+    //         playerPhysics.SetVelocity(velocity);
+    //
+    //         elapsed += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //
+    //     playerPhysics.SetVelocity(Vector2.zero);
+    //     playerPhysics.DisableMovement(false);
+    //     OnActionFinished?.Invoke();
+    //     dashCoroutine = null;
+    // }
+    
+    private IEnumerator PushAir()
     {
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        float duration = 0.1f;
+        float elapsedTime = 0f;
+        
+        Rigidbody2D rigidBody = GameManager.Instance.player.GetComponent<Rigidbody2D>();
+        playerPhysics.DisableMovement(true);
+        rigidBody.linearVelocity = Vector2.right * dashSpeed;
+        
+        while (elapsedTime < duration)
         {
-            float t = elapsed / duration;
-            float speedFactor = dashCurve.Evaluate(t);
-            Vector2 velocity = direction.normalized * dashSpeed * speedFactor;
-
-            playerPhysics.SetVelocity(velocity);
-
-            elapsed += Time.deltaTime;
-            yield return null;
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
-
-        playerPhysics.SetVelocity(Vector2.zero);
+        
+        // rigidBody.linearVelocity = Vector2.zero;
         playerPhysics.DisableMovement(false);
-        OnActionFinished?.Invoke();
-        dashCoroutine = null;
     }
     
     

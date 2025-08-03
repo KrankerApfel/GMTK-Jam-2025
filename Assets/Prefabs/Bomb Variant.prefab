@@ -88,7 +88,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9137319867189057615, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
+    - {fileID: 9137319867189057615, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
     - {fileID: 6801144182346423501, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -96,6 +101,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7416044190119363827, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1973085860525078068}
+    - targetCorrespondingSourceObject: {fileID: 7416044190119363827, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7253074610366922407}
   m_SourcePrefab: {fileID: 100100000, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
 --- !u!1 &6392896329708703208 stripped
 GameObject:
@@ -138,3 +146,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &7253074610366922407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6392896329708703208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5252035a6d0e47ffa49918553bd1dc2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exploding: 0

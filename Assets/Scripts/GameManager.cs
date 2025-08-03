@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour
 
         levelFinished = false;
 
+        // UIManager.Instance.ShowLoadingScreen();
+        // UIManager.Instance.ShowIntro();
+        
         if (actionSequencer != null && actionPool != null && fixedSequence != null)
         {
             Sequencer.Instance.CreateSequence(actionPool.ToArray(), fixedSequence.ToArray());
@@ -94,6 +97,9 @@ public class GameManager : MonoBehaviour
 
     public void OnLevelFinished()
     {
+        player.DisableMovement(true);
+        player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        
         Sequencer.Instance.Stop();
         levelFinished = true;
         if (audioSource && winAudio)
@@ -140,6 +146,11 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning($"Actions non trouvées : {string.Join(", ", notFound)}");
         }
 
+    }
+
+    public void ClearFixedSequence()
+    {
+        fixedSequence.Clear();
     }
 
 }

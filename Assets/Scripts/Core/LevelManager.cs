@@ -26,6 +26,11 @@ public class LevelManager : MonoBehaviour
     {
         StartCoroutine(FadeAndLoadNext());
     }
+    
+    public void FadeToSkipLevel()
+    {
+        StartCoroutine(FadeAndLoadSkip());
+    }
 
     private IEnumerator FadeAndLoadNext()
     {
@@ -44,6 +49,35 @@ public class LevelManager : MonoBehaviour
         int nextIndex = currentIndex + 1;
         if (nextIndex >= SceneManager.sceneCountInBuildSettings)
             nextIndex = 0;
+
+        SceneManager.LoadScene(nextIndex);
+
+        yield return null;
+
+        t = 0;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            color.a = Mathf.Lerp(1f, 0f, t / fadeDuration);
+            fadeImage.color = color;
+            yield return null;
+        }
+    }
+    
+    private IEnumerator FadeAndLoadSkip()
+    {
+        float t = 0;
+        Color color = fadeImage.color;
+
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 1f, t / fadeDuration);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        int nextIndex = 5;
 
         SceneManager.LoadScene(nextIndex);
 

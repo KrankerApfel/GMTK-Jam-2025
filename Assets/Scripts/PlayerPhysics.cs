@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerInputs))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -57,6 +58,7 @@ public class PlayerPhysics : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(transform.position.y < -500f) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         HandleMovement();
     }
     private void HandleMovement()

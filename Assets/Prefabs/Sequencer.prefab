@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionSequencer: {fileID: 0}
   actionPool: []
+  actionSequence: []
   BeatMap: 0001
   BPM: 60
   BarCount: 4
