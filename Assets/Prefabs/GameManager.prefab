@@ -1021,7 +1021,7 @@ GameObject:
   - component: {fileID: 406962654414448187}
   - component: {fileID: 3033266526652268837}
   m_Layer: 0
-  m_Name: ActionsZeroGravity
+  m_Name: ActionZeroGravity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1762,7 +1762,7 @@ GameObject:
   - component: {fileID: 5572293077683860236}
   - component: {fileID: 1036425723196845759}
   m_Layer: 0
-  m_Name: ActionsJump
+  m_Name: ActionJump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
