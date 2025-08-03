@@ -26,11 +26,18 @@ public class PlayerPhysics : MonoBehaviour
     private bool isGrounded;
     private bool disableMovement;
 
+    private ContactFilter2D contactFilter;
+    private Collider2D[] contacts = new Collider2D[10]; // Adjust size as needed
+
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         inputs = GetComponent<PlayerInputs>();
+
+        contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(groundLayer);
+        contactFilter.useLayerMask = true;
     }
 
 
@@ -71,7 +78,9 @@ public class PlayerPhysics : MonoBehaviour
     }
     private void CheckGround() 
     {
-        isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);
+        int contactCount = foots.GetContacts(contactFilter, contacts);
+        isGrounded = contactCount > 0;
+        //isGrounded = Physics2D.OverlapCircle(foots.transform.position, collisionRadius, groundLayer);
     }
 
     private void OnDestroy()
