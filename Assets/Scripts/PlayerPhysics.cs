@@ -38,6 +38,8 @@ public class PlayerPhysics : MonoBehaviour
         contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(groundLayer);
         contactFilter.useLayerMask = true;
+        
+        GetComponent<Collider2D>().enabled = false;
     }
 
 
@@ -87,5 +89,14 @@ public class PlayerPhysics : MonoBehaviour
     private void OnDestroy()
     {
         OnPlayerDestroyed?.Invoke();
+    }
+
+    //ONLY ACTIVATE WHEN BERSERKING
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(LayerMask.NameToLayer("Enemy") == other.gameObject.layer && GetComponent<Collider2D>().enabled)
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
