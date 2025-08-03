@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 
 public class PlayerInputs : MonoBehaviour
@@ -17,7 +15,5 @@ public class PlayerInputs : MonoBehaviour
             isJumpPressed = Input.GetButtonDown("Jump");
             horizontal = Input.GetAxis("Horizontal");
         }
-
-
     }
 }
