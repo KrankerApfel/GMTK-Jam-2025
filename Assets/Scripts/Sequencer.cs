@@ -59,8 +59,8 @@ public class Sequencer : MonoBehaviour
 
     private void Start()
     {
-        tickInterval = 60f / BPM;
-        latency = tickInterval / 6f;
+        // tickInterval = 60f / BPM;
+        // latency = tickInterval / 6f;
         audioSource = GetComponent<AudioSource>();
         ticksPerBar = BeatMap.Length;
         beatMapUI = UIManager.Instance.BeatMap.GetComponent<BeatMap>();
@@ -103,6 +103,9 @@ public class Sequencer : MonoBehaviour
         foreach (var c in BeatMap)
             if (c == '1') SlotCount++;
         SlotCount *= BarCount;
+        
+        tickInterval = 60f / BPM;
+        latency = tickInterval / 6f;
         
         Ring.Instance.ResetSlots();
         actionSequencer = GameObject.FindGameObjectWithTag("Player").GetComponent<ActionSequencer>();

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class ActionGhost : ActionBase
 {
-    [SerializeField]
-    public GameObject playerColliderObject;     
+    private GameObject playerColliderObject;     
     [SerializeField]
     private PlayerPhysics player;
 
@@ -40,7 +39,7 @@ public class ActionGhost : ActionBase
     public override void Init()
     {
         player = GameManager.Instance.player;
-        playerColliderObject = player.GetComponentInChildren<BoxCollider2D>().gameObject;
+        playerColliderObject = player.transform.GetChild(0).gameObject;
         spriteRenderer = player.GetComponent<SpriteRenderer>();
         
         ghostLayer_num = LayerMask.NameToLayer("GhostLayer");
