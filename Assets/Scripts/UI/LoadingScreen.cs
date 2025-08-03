@@ -24,7 +24,7 @@ public class LoadingScreen : MonoBehaviour
     {
         panel.color = Color.black;
         
-        loadingText.text = LoadingText;
+        // loadingText.text = LoadingText;
         
         // Fade in
         float elapsedTime = 0f;

@@ -505,7 +505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadingText: Loading...
   FadeInDuration: 0.5
-  LoadingDuration: 0.5
+  LoadingDuration: 3
   FadeOutDuration: 0.5
 --- !u!1 &7221392926541934289
 GameObject:
@@ -526,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6211370425411913763
 RectTransform:
   m_ObjectHideFlags: 0

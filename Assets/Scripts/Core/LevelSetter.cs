@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSetter : MonoBehaviour
 {
@@ -9,9 +11,12 @@ public class LevelSetter : MonoBehaviour
     [SerializeField] private int BarCount = 6;
     [SerializeField] private AudioClip Music;
     [SerializeField] private List<String> actionNames;
+    [SerializeField] private string loadingMessage;
 
     private void Start()
     {
+        // if (UIManager.Instance == null) SceneManager.LoadScene(0);
+        
         Sequencer.Instance.BeatMap = BeatMap;
         Sequencer.Instance.BPM = BPM;
         Sequencer.Instance.BarCount = BarCount;
@@ -19,5 +24,10 @@ public class LevelSetter : MonoBehaviour
 
         if(actionNames.Count>0)
             GameManager.Instance.SetFixedSequence(actionNames);
+
+        if (loadingMessage.Length > 0)
+        {
+            UIManager.Instance.Loading.GetComponent<LoadingScreen>().GetComponent<TextMeshProUGUI>().text = loadingMessage;
+        }
     }
 }

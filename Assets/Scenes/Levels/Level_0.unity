@@ -168,9 +168,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BeatMap: 0001
   BPM: 60
-  BarCount: 3
+  BarCount: 2
   Music: {fileID: 8300000, guid: d09eff466d53c47f795bf1ece4650868, type: 3}
-  actionNames: []
+  actionNames:
+  - ActionJump
+  - ActionDash
+  loadingMessage: 'Move: Left/RIght, Jump: Space. Special actions arrive on beat.'
 --- !u!1001 &501357209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -742,6 +745,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 238496797035013018, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 8392454623572542086, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3993073257849250067, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 2945703278060707139, guid: c16aaf279c181ce4588e1a60cab7cf28, type: 3}
@@ -1341,6 +1350,10 @@ PrefabInstance:
     - target: {fileID: 2683077977640164261, guid: de1cd9ab431618a4485f70aacbd52f46, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683077977640164261, guid: de1cd9ab431618a4485f70aacbd52f46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8415348326395935031, guid: de1cd9ab431618a4485f70aacbd52f46, type: 3}
       propertyPath: m_Pivot.x
