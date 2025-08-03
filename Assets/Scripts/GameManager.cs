@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip winAudio;
 
+    private bool levelFinished = false;
     private void Awake()
     {
         if (Instance == null)
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
             player.OnPlayerDestroyed += OnPlayerDestroyed;
         }
 
-        Debug.Log("Init");
+        levelFinished = false;
 
         if (actionSequencer != null && actionPool != null && fixedSequence != null)
         {
@@ -85,13 +86,16 @@ public class GameManager : MonoBehaviour
         {
             player.OnPlayerDestroyed -= OnPlayerDestroyed;
         }
+
+        if(!levelFinished)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
     public void OnLevelFinished()
     {
         Sequencer.Instance.Stop();
-
+        levelFinished = true;
         if (audioSource && winAudio)
         {
             audioSource.PlayOneShot(winAudio);
@@ -104,7 +108,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator WaitAndGoToNextLevel(float delay)
+    private IEnumerator WaitAndGoToNextLevel(float delay)
     {
         yield return new WaitForSeconds(delay);
 
@@ -125,8 +129,6 @@ public class GameManager : MonoBehaviour
 
     public void SetFixedSequence(List<string> actionNames)
     {
-        Debug.Log("SetFixedSequence");
-
         fixedSequence = actionNames
             .Select(name => actionPool.LastOrDefault(a => a != null && a.GetType().Name == name))
             .Where(a => a != null)
@@ -135,7 +137,7 @@ public class GameManager : MonoBehaviour
         var notFound = actionNames.Except(fixedSequence.Select(a => a.GetType().Name)).ToList();
         if (notFound.Any())
         {
-            Debug.LogWarning($"Actions non trouv�es : {string.Join(", ", notFound)}");
+            Debug.LogWarning($"Actions non trouvées : {string.Join(", ", notFound)}");
         }
 
     }
