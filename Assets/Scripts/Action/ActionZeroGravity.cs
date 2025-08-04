@@ -6,7 +6,7 @@ public class ActionZeroGravity : ActionBase
     private Rigidbody2D playerRigidbody;
     [SerializeField] private bool disableMovementDuringJump = true;
     
-    public float damping = 5f; // Damping value to apply when in zero gravity
+    public float damping = 3f; // Damping value to apply when in zero gravity
     private float originalGravityScale; // Original gravity scale to restore after action
     private float originalLinearDamping; // Original linear damping to restore after action
     private float originalAngularDamping;

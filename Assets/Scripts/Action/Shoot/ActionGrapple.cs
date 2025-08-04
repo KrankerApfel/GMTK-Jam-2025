@@ -78,7 +78,7 @@ public class ActionGrapple: ActionBase
     
     private IEnumerator GrappleToTarget(Vector3 targetPosition)
     {
-        float duration = 0.1f;
+        float duration = Math.Min(0.1f, Sequencer.Instance.tickInterval);
         float elapsedTime = 0f;
         Rigidbody2D rigidBody = playerTransform.GetComponent<Rigidbody2D>();
         

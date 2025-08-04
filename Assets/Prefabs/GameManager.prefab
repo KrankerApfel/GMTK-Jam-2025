@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d90212dfd874499b09d6b063cbcf98e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Berserker
   ActionIcon: {fileID: 8703389998563471379, guid: f1f4730f3036543b1970c182d63e67fd, type: 3}
 --- !u!1 &1894815364196769385
@@ -270,7 +269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c313c50fc69404c88a4b3510474bc18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Grapple
   ActionIcon: {fileID: -3535184528703506323, guid: 91d39244787f4483aa5c0bb9de66f73d, type: 3}
   ShootingRange: 7
@@ -498,7 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2cdd7f6cfe54af7aa1a1fce2579798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Push Air
   ActionIcon: {fileID: 435764861381708884, guid: caa75c1e075ba43fc891bbd15234b1d1, type: 3}
   ShootingRange: 3
@@ -1004,7 +1001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0bbcb5db17054184b00365a49946cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Shoot
   ActionIcon: {fileID: -8809470994601461542, guid: 66599a378cc9a488cbf4f79055e7e634, type: 3}
   bulletPrefab: {fileID: 7416044190119363827, guid: f1941e7fd049d415c86dc949908f4196, type: 3}
@@ -1054,7 +1050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc906e2673268489492a69504b4eb4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Zero Gravity
   ActionIcon: {fileID: -4447985245133769695, guid: 49b33a7cd6c5b41e6860811ee1b3e816, type: 3}
   disableMovementDuringJump: 1
@@ -1103,7 +1098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3096f51cabc733944b985754c079253a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.1
   ActionName: Dash
   ActionIcon: {fileID: 7712889252448647843, guid: d7a32fbb1955044fd8756262bca3b1ff, type: 3}
   playerPhysics: {fileID: 0}
@@ -1355,12 +1349,12 @@ MonoBehaviour:
   - {fileID: 7649499147078429401}
   - {fileID: 8649648769550929084}
   - {fileID: 8716826698594288001}
-  - {fileID: 449505747830404593}
   - {fileID: 4995871063620380990}
   - {fileID: 3033266526652268837}
   - {fileID: 1003202459787840094}
   - {fileID: 3545151363707710968}
   - {fileID: 979647087841683804}
+  - {fileID: 449505747830404593}
   fixedSequence: []
   audioSource: {fileID: 20802666855853272}
   winAudio: {fileID: 8300000, guid: f3abf40460cf037428cbd714eae5451e, type: 3}
@@ -1644,7 +1638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e8866ad72fcf784bbf019140558dbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Reset
   ActionIcon: {fileID: -6351731881600203286, guid: 4ac5359b0b5fb4175a6e64faa7477045, type: 3}
 --- !u!1 &6673511215173326869
@@ -1691,7 +1684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42baef8cc13c6cfbfb0c91748dcc4e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 5
   ActionName: Ghost
   ActionIcon: {fileID: 8124536228571830565, guid: 893b072c245bc43fc96b9621d6cc6196, type: 3}
   player: {fileID: 0}
@@ -1744,7 +1736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ad23d511f043a9961373fcd2ab4b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Bomb
   ActionIcon: {fileID: -1483665779731714255, guid: 80a75bcfce5a042d0b26ac43512c6454, type: 3}
   bulletPrefab: {fileID: 6392896329708703208, guid: 67edd886947f24d7b97f8fe33bed9759, type: 3}
@@ -1794,12 +1785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbebfc62f16a563d978ee71115b5c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Jump
   ActionIcon: {fileID: 7460046300004610927, guid: 9fc8f6c87b63b4753a87b58997a146b5, type: 3}
   playerPhysics: {fileID: 0}
   jumpForce: 30
-  disableMovementDuringJump: 1
+  disableMovementDuringJump: 0
 --- !u!1 &8392454623572542086
 GameObject:
   m_ObjectHideFlags: 0
@@ -2020,7 +2010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f3a999f2310edf4184dcc47a78aec18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Double Jump
   ActionIcon: {fileID: -1922158921932106124, guid: 368d13f87eace46c5a54f334e67e060c, type: 3}
   rigidBody: {fileID: 0}
@@ -2071,7 +2060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6739ab38ae9fd72afa63131e7cdd8680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
   ActionName: Do Nothing
   ActionIcon: {fileID: 5678934440524812704, guid: 089df0d467b4a4ed08db3f65f88016d9, type: 3}
 --- !u!1001 &2339502061500533717

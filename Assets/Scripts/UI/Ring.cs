@@ -94,6 +94,7 @@ public class Ring : MonoBehaviour
             animator.speed = Sequencer.Instance.BPM / 60f;
             animator.Play(animationName);
         }
+        Sequencer.Instance.animPlaying = false;
         yield return null;
     }
 
@@ -141,6 +142,7 @@ public class Ring : MonoBehaviour
             CenterImage.sprite = actions[currentSlotIndex].ActionIcon;
             CenterImage.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+        Sequencer.Instance.animPlaying = false;
     }
 
     public IEnumerator IntroToGamePos()
@@ -162,23 +164,10 @@ public class Ring : MonoBehaviour
         transform.localScale = gameScale;
     }
 
-    public IEnumerator GameToIntroPos()
-    {
-        float duration = Sequencer.Instance.tickInterval / 6f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            transform.position = Vector3.Lerp(gamePos, introPos, elapsed / duration);
-            transform.localScale = Vector3.Lerp(gameScale, introScale, elapsed / duration);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-    }
-
     public void ResetSlots()
     {
+        transform.localEulerAngles = Vector3.zero;
+        
         foreach (Transform child in animator.transform)
             Destroy(child.gameObject);
 

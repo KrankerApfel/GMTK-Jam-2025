@@ -69,7 +69,7 @@ public class ActionPushAir : ActionBase
 
     private IEnumerator PushAir()
     {
-        float duration = 0.1f;
+        float duration = Math.Min(0.1f, Sequencer.Instance.tickInterval);
         float elapsedTime = 0f;
         
         

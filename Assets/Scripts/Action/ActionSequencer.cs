@@ -40,6 +40,9 @@ public class ActionSequencer : MonoBehaviour
         }
         
         actionStack.Clear();
+        lastAction = null;
+        currentAction = null;
+        nextAction = null;
 
         foreach (ActionBase action in actions)
         {

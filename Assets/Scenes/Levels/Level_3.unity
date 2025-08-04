@@ -499,8 +499,8 @@ MonoBehaviour:
   BeatMap: 0001
   BPM: 90
   BarCount: 2
-  Music: {fileID: 8300000, guid: 8ff199dcc31294a7783cfa7a3a78f0b8, type: 3}
-  MusicOffset: 0.16
+  Music: {fileID: 8300000, guid: 903d5334a833c446197b73ff478bc441, type: 3}
+  MusicOffset: 0
   actionNames:
   - ActionZeroGravity
   - ActionGrapple
@@ -745,8 +745,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.5, y: 2, z: 0}
-  m_LocalScale: {x: 627.5, y: 348.6111, z: 34.861115}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 177.77779, y: 100.00001, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 375689999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

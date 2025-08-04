@@ -498,10 +498,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c722256cb00d834985907021ded1af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeatMap: 01001
+  BeatMap: 001
   BPM: 100
-  BarCount: 3
-  Music: {fileID: 8300000, guid: 7fa421d3a5b14490dbfe33fa2a48c9eb, type: 3}
+  BarCount: 6
+  Music: {fileID: 8300000, guid: fce3c5456619c4b46a672bce83ad44ef, type: 3}
   MusicOffset: 0
   actionNames: []
   loadingMessage: 100 BPM!
@@ -748,9 +748,9 @@ Transform:
   m_GameObject: {fileID: 817036141}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.5, y: 2, z: 0}
-  m_LocalScale: {x: 627.5, y: 348.6111, z: 34.861115}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 45.5, y: 2, z: 0}
+  m_LocalScale: {x: 177.77779, y: 100.00001, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 375689999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -827,8 +827,8 @@ Transform:
   m_GameObject: {fileID: 1131286175}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 71, y: -3, z: 0}
-  m_LocalScale: {x: 200, y: 1, z: 1}
+  m_LocalPosition: {x: 44, y: -3, z: 0}
+  m_LocalScale: {x: 145.99765, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1031131667}

@@ -8,15 +8,11 @@ public class ActionDoNothing : ActionBase
 
     public override void HandleAction()
     {
-        StartCoroutine(Waitforduration());
         OnActionFinished?.Invoke();
+        return;
     }
 
     public override void PreAction() { return; }
     public override void PostAction() { return; }
-
-    private IEnumerator Waitforduration()
-    {
-        yield return new WaitForSeconds(duration);
-    }
+    
 }

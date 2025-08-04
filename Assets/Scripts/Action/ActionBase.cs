@@ -5,7 +5,7 @@ public abstract class ActionBase : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Duration in seconds")]
-    protected float duration = 1f;
+    // protected float duration = 1f;
 
     public Action OnActionStarted;
     public Action OnActionFinished;

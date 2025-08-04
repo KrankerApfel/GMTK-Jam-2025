@@ -23,7 +23,7 @@ public class Sequencer : MonoBehaviour
 
     private int ticksPerBar;
     [HideInInspector] public float tickInterval;
-    private float latency;
+    private float offset;
     private float tickStamp;
     private float gameStartTime, elapsedTime;
     [SerializeField] private float gachaInterval = 10f;
@@ -38,6 +38,10 @@ public class Sequencer : MonoBehaviour
 
     [HideInInspector] public bool isPlaying = false;
     [HideInInspector] public bool isIntro = false;
+    [HideInInspector] public bool animPlaying = false;
+    private bool soundPlaying = false;
+    private int tickAnimIndex = 0;
+    private int tickSoundIndex = 0;
     private bool gachaing = false;
     
     private bool loaded = false;
@@ -59,8 +63,6 @@ public class Sequencer : MonoBehaviour
 
     private void Start()
     {
-        // tickInterval = 60f / BPM;
-        // latency = tickInterval / 6f;
         audioSource = GetComponent<AudioSource>();
         beatMapUI = UIManager.Instance.BeatMap.GetComponent<BeatMap>();
 
@@ -80,28 +82,12 @@ public class Sequencer : MonoBehaviour
     {
         isPlaying = false;
         isIntro = false;
-        yield return null;
+        animPlaying = false;
+        soundPlaying = false;
         UIManager.Instance.ShowLoadingScreen();
-        // StartIntro();
+        yield return null;
     }
-
-    public void StartIntro()
-    {
-        UIManager.Instance.BeatMap.SetActive(true);
-        UIManager.Instance.BeatMap.GetComponent<BeatMap>().Reset();
-        // UIManager.Instance.Ring.
-        
-        gameStartTime = Time.time;
-        isIntro = true;
-        introActionIndex = 0;
-        loaded = true;
-    }
-
-    public void SetMusic(AudioClip clip) 
-    {
-        MusicClip = clip;
-        musicSource.clip = MusicClip;
-    }
+    
     public void CreateSequence(ActionBase[] actionPool, ActionBase[] fixedSequence)
     {
         SlotCount = 0;
@@ -110,7 +96,7 @@ public class Sequencer : MonoBehaviour
         SlotCount *= BarCount;
         
         tickInterval = 60f / BPM;
-        latency = tickInterval / 6f;
+        offset = tickInterval / 6f;
         ticksPerBar = BeatMap.Length;
         
         Ring.Instance.ResetSlots();
@@ -137,6 +123,14 @@ public class Sequencer : MonoBehaviour
 
         actionSequencer.SetNewActions(actionSequence.ToArray());
         Ring.Instance.AddSlots(actionSequence.ToArray());
+        
+        //print every elements
+        string actionNames = "";
+        foreach (ActionBase action in actionSequence)
+        {
+            actionNames += action.ActionName + ", ";
+        }
+        Debug.Log("Action Sequence: " + actionNames);
     }
 
     public void Stop()
@@ -144,24 +138,40 @@ public class Sequencer : MonoBehaviour
         isPlaying = false;
         StopMusic();
     }
+    
+    public void StartIntro()
+    {
+        UIManager.Instance.BeatMap.SetActive(true);
+        UIManager.Instance.BeatMap.GetComponent<BeatMap>().Reset();
+        // UIManager.Instance.Ring.
+        
+        tickStamp = 0;
+        gameStartTime = Time.time + offset;
+        
+        isPlaying = false;
+        isIntro = true;
+        
+        introActionIndex = 0;
+        tickSoundIndex = -1;
+        tickAnimIndex = -1;
+        
+        
+        loaded = true;
+    }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!isPlaying && !isIntro)
             return;
 
         elapsedTime = Time.time - gameStartTime;
 
-        if (elapsedTime % tickInterval < Time.fixedDeltaTime)
+        if (elapsedTime % tickInterval < Time.deltaTime && !animPlaying)
         {
             TickAnimation();
-            tickStamp = elapsedTime + latency;
-            
-            //correct time 
-            float offset = elapsedTime % tickInterval;
-            gameStartTime -= offset;
+            tickStamp = elapsedTime + offset;
         }
-        else if (elapsedTime > tickStamp && elapsedTime - tickStamp < Time.fixedDeltaTime)
+        else if (elapsedTime > tickStamp && elapsedTime - tickStamp < Time.deltaTime)
         {
             TickSound();
         }
@@ -169,11 +179,15 @@ public class Sequencer : MonoBehaviour
 
     private void TickAnimation()
     {
-        int tickIndex = (int)((Time.time - gameStartTime) / tickInterval);
+        int tmpIndex = (int)((Time.time - gameStartTime) / tickInterval);
+        if (tmpIndex <= tickAnimIndex) return;
+        
+        animPlaying = true;
+        tickAnimIndex = tmpIndex;
 
-        if (BeatMap[tickIndex % ticksPerBar] == '0')
+        if (BeatMap[tickAnimIndex % ticksPerBar] == '0')
         {
-            if (BeatMap[(tickIndex + 1) % ticksPerBar] == '1')
+            if (BeatMap[(tickAnimIndex + 1) % ticksPerBar] == '1')
                 StartCoroutine(Ring.Instance.PlayAnimation("PreTransition"));
             else
                 StartCoroutine(Ring.Instance.PlayAnimation("Tick"));
@@ -185,21 +199,26 @@ public class Sequencer : MonoBehaviour
                 StartCoroutine(PlayMusic());
             }
         }
-        else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
+        else if (BeatMap[tickAnimIndex % ticksPerBar] == '1' && tickAnimIndex != 0)
         {
             StartCoroutine(Ring.Instance.Rotate());
             StartCoroutine(Ring.Instance.PlayAnimation("PostTransition"));
             if (isIntro) introActionIndex++;
         }
+        animPlaying = false;
     }
 
     private void TickSound()
     {
-        int tickIndex = (int)((Time.time - gameStartTime) / tickInterval);
+        int tmpIndex = (int)((Time.time - gameStartTime - offset) / tickInterval);
+        if (tmpIndex <= tickSoundIndex) return;
+        
+        soundPlaying = true;
+        tickSoundIndex = tmpIndex;
 
         if (isIntro) beatMapUI.Advance();
 
-        if (BeatMap[tickIndex % ticksPerBar] == '0')
+        if (BeatMap[tickSoundIndex % ticksPerBar] == '0')
         {
             audioSource.clip = TickClip;
             if (isIntro && introActionIndex > actionSequence.Count)
@@ -217,7 +236,7 @@ public class Sequencer : MonoBehaviour
             }
             audioSource.Play();
         }
-        else if (BeatMap[tickIndex % ticksPerBar] == '1' && tickIndex != 0)
+        else if (BeatMap[tickSoundIndex % ticksPerBar] == '1' && tickSoundIndex != 0)
         {
             audioSource.clip = BarClip;
             audioSource.Play();
@@ -229,6 +248,7 @@ public class Sequencer : MonoBehaviour
 
             beatMapUI.SetActionTitle(actionSequence[(introActionIndex - 1 + actionSequence.Count) % actionSequence.Count].ActionName);
         }
+        soundPlaying = false;
     }
 
     private IEnumerator Gacha()
@@ -246,6 +266,11 @@ public class Sequencer : MonoBehaviour
         }
     }
 
+    public void SetMusic(AudioClip clip) 
+    {
+        MusicClip = clip;
+        musicSource.clip = MusicClip;
+    }
     private IEnumerator PlayMusic()
     {
         yield return new WaitForSeconds(MusicOffset);

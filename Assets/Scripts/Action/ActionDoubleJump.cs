@@ -12,7 +12,7 @@ public class ActionDoubleJump : ActionBase
     [SerializeField]
     private float jumpForce = 25f;
 
-    private float jumpInterval = 0.3f;
+    private float jumpInterval = 0.2f;
 
     [SerializeField] private bool disableMovementDuringJump = true;
 
@@ -30,12 +30,10 @@ public class ActionDoubleJump : ActionBase
         }
 
         rigidBody.linearVelocity = new Vector2(playerPhysics.Velocity.x, jumpForce);
-
-
         yield return new WaitForSeconds(jumpInterval);
+        
         rigidBody.linearVelocity = new Vector2(playerPhysics.Velocity.x, jumpForce);
-
-        yield return new WaitForSeconds(duration - jumpInterval);
+        // yield return new WaitForSeconds(jumpInterval);
 
         if (disableMovementDuringJump)
         {

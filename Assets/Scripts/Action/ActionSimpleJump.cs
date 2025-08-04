@@ -26,7 +26,7 @@ public class ActionSimpleJump : ActionBase
 
     private IEnumerator FinishAfterDuration()
     {
-        yield return new WaitForSeconds(duration);
+        yield return null;
 
         if (disableMovementDuringJump)
             playerPhysics.DisableMovement(false);
