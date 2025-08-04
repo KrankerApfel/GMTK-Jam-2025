@@ -159,19 +159,19 @@ public class Sequencer : MonoBehaviour
         loaded = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isPlaying && !isIntro)
             return;
 
         elapsedTime = Time.time - gameStartTime;
 
-        if (elapsedTime % tickInterval < Time.deltaTime && !animPlaying)
+        if (elapsedTime % tickInterval < Time.fixedDeltaTime && !animPlaying)
         {
             TickAnimation();
             tickStamp = elapsedTime + offset;
         }
-        else if (elapsedTime > tickStamp && elapsedTime - tickStamp < Time.deltaTime)
+        else if (Math.Abs(elapsedTime - tickStamp) < Time.fixedDeltaTime && !soundPlaying)
         {
             TickSound();
         }

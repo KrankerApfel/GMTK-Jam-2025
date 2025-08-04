@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputs : MonoBehaviour
 {
@@ -15,5 +16,10 @@ public class PlayerInputs : MonoBehaviour
             isJumpPressed = Input.GetButtonDown("Jump");
             horizontal = Input.GetAxis("Horizontal");
         }
+        
+        // ] is pressed 
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+            GameManager.Instance.OnLevelFinished();
+    
     }
 }
